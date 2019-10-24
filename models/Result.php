@@ -66,4 +66,5 @@ class Result extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Type::className(), ['id' => 'type_id']);
     }
+
 }

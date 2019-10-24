@@ -2,14 +2,17 @@
 
 namespace app\controllers;
 
+use app\models\Result;
 use app\rbac\ManagerRule;
 use Yii;
 use app\models\Member;
 use app\models\MemberSearch;
+use yii\helpers\VarDumper;
 use yii\mail\BaseMailer;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
 
 /**
  * MemberController implements the CRUD actions for Member model.
@@ -68,7 +71,27 @@ class MemberController extends Controller
         $searchModel = new MemberSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        
+
+
+        //var_dump($_GET['type']);die;
+//        if (isset($_GET['type'])) {
+        if(Yii::$app->request->get('type')) {
+            $model = Result::find()->where(['member_id' => Yii::$app->request->get('memberid')])->exists() ? Result::find()->where(['member_id' => Yii::$app->request->get('memberid')])->one() : new Result();
+            $model->user_id = (int)Yii::$app->user->getId();
+            $model->member_id = (int)Yii::$app->request->get('memberid');
+            $model->result_id = (int)Yii::$app->request->get('type');
+            $model->type_id = (int)Yii::$app->request->get('type');
+            $model->save(false);
+//            return $this->redirect(['index']);
+        }
+
+
+        if(Yii::$app->request->get('status')) {
+            $model = Member::findOne(Yii::$app->request->get('memberid'));
+            $model->status_student_id = (int)Yii::$app->request->get('status');
+            $model->save();
+        }
+
 
         return $this->render('index', [
             'searchModel' => $searchModel,

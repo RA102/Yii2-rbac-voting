@@ -32,7 +32,7 @@ class Member extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'faculty', 'department', 'specialty', 'theme', 'active', 'status_student_id'], 'required'],
+            [['name', 'faculty', 'department', 'specialty', 'theme'], 'required'],
             [['active', 'status_student_id'], 'integer'],
             [['name', 'faculty', 'department', 'specialty', 'theme'], 'string', 'max' => 255],
         ];
@@ -53,5 +53,14 @@ class Member extends \yii\db\ActiveRecord
             'active' => 'Active',
             'status_student_id' => 'Status Student ID',
         ];
+    }
+
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStatus()
+    {
+        return $this->hasOne(StatusStudent::className(), ['id' => 'status_student_id']);
     }
 }
