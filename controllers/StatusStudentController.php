@@ -2,22 +2,17 @@
 
 namespace app\controllers;
 
-use app\models\Result;
-use app\rbac\ManagerRule;
 use Yii;
-use app\models\Member;
-use app\models\MemberSearch;
-use yii\helpers\VarDumper;
-use yii\mail\BaseMailer;
+use app\models\StatusStudent;
+use app\models\StatusStudentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-
 /**
- * MemberController implements the CRUD actions for Member model.
+ * StatusStudentController implements the CRUD actions for StatusStudent model.
  */
-class MemberController extends Controller
+class StatusStudentController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -35,75 +30,22 @@ class MemberController extends Controller
     }
 
     /**
-     * @inheritdoc
-     */
-    public function beforeAction($action)
-    {
-        if (parent::beforeAction($action)) {
-//            if (Yii::$app->has('mailer') && ($mailer = Yii::$app->getMailer()) instanceof BaseMailer) {
-//                /* @var $mailer BaseMailer */
-//                $this->_oldMailPath = $mailer->getViewPath();
-//                $mailer->setViewPath('@mdm/admin/mail');
-//            }
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function afterAction($action, $result)
-    {
-//        if ($this->_oldMailPath !== null) {
-//            Yii::$app->getMailer()->setViewPath($this->_oldMailPath);
-//        }
-        return parent::afterAction($action, $result);
-    }
-
-
-    /**
-     * Lists all Member models.
+     * Lists all StatusStudent models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new MemberSearch();
+        $searchModel = new StatusStudentSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-
-
-        //var_dump($_GET['type']);die;
-//        if (isset($_GET['type'])) {
-        if(Yii::$app->request->get('type')) {
-            $model = Result::find()->where(['member_id' => Yii::$app->request->get('memberid')])->exists() ? Result::find()->where(['member_id' => Yii::$app->request->get('memberid')])->one() : new Result();
-            $model->user_id = (int)Yii::$app->user->getId();
-            $model->member_id = (int)Yii::$app->request->get('memberid');
-            $model->result_id = (int)Yii::$app->request->get('type');
-            $model->type_id = (int)Yii::$app->request->get('type');
-            $model->save(false);
-//            return $this->redirect(['index']);
-        }
-
-
-        if(Yii::$app->request->get('status')) {
-            $model = Member::findOne(Yii::$app->request->get('memberid'));
-            $model->status_student_id = (int)Yii::$app->request->get('status');
-            $model->save(false);
-            return $this->redirect(['index']);
-        }
-
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-
-
     }
 
     /**
-     * Displays a single Member model.
+     * Displays a single StatusStudent model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -116,13 +58,13 @@ class MemberController extends Controller
     }
 
     /**
-     * Creates a new Member model.
+     * Creates a new StatusStudent model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Member();
+        $model = new StatusStudent();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -134,7 +76,7 @@ class MemberController extends Controller
     }
 
     /**
-     * Updates an existing Member model.
+     * Updates an existing StatusStudent model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -154,7 +96,7 @@ class MemberController extends Controller
     }
 
     /**
-     * Deletes an existing Member model.
+     * Deletes an existing StatusStudent model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -168,15 +110,15 @@ class MemberController extends Controller
     }
 
     /**
-     * Finds the Member model based on its primary key value.
+     * Finds the StatusStudent model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Member the loaded model
+     * @return StatusStudent the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Member::findOne($id)) !== null) {
+        if (($model = StatusStudent::findOne($id)) !== null) {
             return $model;
         }
 

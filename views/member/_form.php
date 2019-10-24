@@ -26,6 +26,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'status_student_id')->textInput() ?>
 
+    <?= $form->field($model, 'data')->textInput(['type' => 'date']) ?>
+
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

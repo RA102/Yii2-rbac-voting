@@ -25,8 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'tableOptions' => ['class' => 'table table-bordered'],
         'rowOptions' => function($model) {
-//            return $model->status_student_id == 2 ? ['class' => 'green-color'] : ['class' => 'grey-color'];
+            return $model->status_student_id == 2 ? ['class' => 'mark-row'] : false;//['class' => 'grey-color'];
         },
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
@@ -46,7 +47,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
 
-            #'data',
+            'data' => [
+                'label' => 'Дата',
+                'visible' => Yii::$app->user->can('accessVote'),
+                'filter' => Html::activeDropDownList($searchModel, 'data', ArrayHelper::map(Member::find()->all(), 'data', 'data'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
+                'value' => function($data){
+                    return $data->data;
+                },
+            ],
             'Button' => [
                 'label' => 'Кнопки',
                 'format' => 'raw',
@@ -58,13 +66,21 @@ $this->params['breadcrumbs'][] = $this->title;
                         Html::a('Воздержался', ['index?type=1&memberid='.$data->id], ['class' => 'btn btn-warning  btn-sm']);
                 },
             ],
+            'data' => [
+                'label' => 'Дата',
+                'visible' => Yii::$app->user->can('accessAppoint'),
+                'filter' => Html::activeDropDownList($searchModel, 'data', ArrayHelper::map(Member::find()->all(), 'data', 'data'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
+                'value' => function($data){
+                    return $data->data;
+                },
+            ],
             'Student' => [
                 'label' => 'Назначить',
                 'format' => 'raw',
                 'visible' => Yii::$app->user->can('accessAppoint'),
-                'contentOptions' => ['class' => 'd-flex'],
+                'contentOptions' => ['class' => 'd-table-cell'],
                 'value' => function($data){
-                    return Html::a('Защита', ['index?status=2&memberid='.$data->id], ['class' => 'btn btn-success btn-sm  mr-1'] );
+                    return Html::a('Защита', ['index?status=2&memberid='.$data->id], ['class' => 'btn btn-success btn-sm  mr-1',  'id' => 'appoint'] );
                 },
 
             ],
@@ -75,5 +91,13 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
-
+<?php
+$js = <<<JS
+$('#appoint').on('beforeSubmit', function() {
+    alert("ok");
+    return false;
+});
+JS;
+$this->registerJs($js);
+?>
 </div>

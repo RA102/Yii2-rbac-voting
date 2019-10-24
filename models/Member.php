@@ -33,7 +33,8 @@ class Member extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'faculty', 'department', 'specialty', 'theme'], 'required'],
-            [['active', 'status_student_id'], 'integer'],
+//            [['active', 'status_student_id'], 'integer'],
+            [['data'], 'date', 'format' => 'php: Y-m-d'],
             [['name', 'faculty', 'department', 'specialty', 'theme'], 'string', 'max' => 255],
         ];
     }
