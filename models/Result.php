@@ -32,7 +32,7 @@ class Result extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'member_id', 'result_id', 'type_id'], 'required'],
-            [['user_id', 'member_id', 'result_id', 'type_id'], 'integer'],
+            [['user_id', 'member_id', 'result_id', 'type_id', 'status_student_id'], 'integer'],
             [['member_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['member_id' => 'id']],
         ];
     }
@@ -48,6 +48,7 @@ class Result extends \yii\db\ActiveRecord
             'member_id' => 'Member ID',
             'result_id' => 'Result ID',
             'type_id' => 'Type ID',
+            'status_student_id' => 'Status Student',
         ];
     }
 
@@ -66,5 +67,12 @@ class Result extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Type::className(), ['id' => 'type_id']);
     }
+
+    public function getStatusStudent()
+    {
+        return $this->hasOne(StatusStudent::className(), ['id' => 'status_student_id']);
+    }
+
+
 
 }

@@ -48,9 +48,9 @@ $this->params['breadcrumbs'][] = $this->title;
             #'result',
             'type.name' => [
                 'label' => 'Результат',
-                'filter' => Html::activeDropDownList($searchModel, 'type_id', ArrayHelper::map(Result::find()->all(), 'type_id', 'type.name'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
+                'filter' => Html::activeDropDownList($searchModel, 'status_student_id', ArrayHelper::map(Result::find()->all(), 'status_student_id', 'statusStudent.status'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
                 'value' => function($data){
-                    return $data->type->name;
+                    return $data->statusStudent->status;
                 },
             ],
 
