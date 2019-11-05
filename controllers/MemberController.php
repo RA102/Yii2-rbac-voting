@@ -67,6 +67,8 @@ class MemberController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
 
+
+
         // Кнопка голосования "ЗА" "ПРОТИВ" "ВОЗДЕРЖАЛСЯ"
 
         if(Yii::$app->request->get('type') ) {
@@ -125,6 +127,16 @@ class MemberController extends Controller
         ]);
 
     }
+
+    public function actionIndex2()
+    {
+        $activeUser = Member::find()->where(['active' => 2])->one();
+
+//        echo "<pre>"; print_r($activeUser);
+
+        return $this->render('index2', compact('activeUser'));
+    }
+
 
     /**
      * Displays a single Member model.

@@ -30,11 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 <?php //echo "<pre>"; print_r();die; ?>
-    <?php echo "<pre>"; print_r($dataProvider);die; ?>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
-//            'vote' => $vote,
             'id' => 'container',
             'options' => ['style' => 'max-width: max-content'],
             'tableOptions' => ['class' => 'table table-bordered'],

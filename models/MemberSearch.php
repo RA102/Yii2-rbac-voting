@@ -41,12 +41,6 @@ class MemberSearch extends Member
     public function search($params)
     {
         if (\Yii::$app->user->identity)
-//        $params['MemberSearch']['data'] = \Yii::$app->formatter->asDate($params['MemberSearch']['data'], 'php: Y-m-d');
-
-        /*
-         * echo "<pre>";
-        print_r($params);die;
-        */
 
         $query = Member::find();
 
