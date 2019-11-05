@@ -73,6 +73,11 @@ class Result extends \yii\db\ActiveRecord
         return $this->hasOne(StatusStudent::className(), ['id' => 'status_student_id']);
     }
 
+    public function getCountVote()
+    {
+        return ; #Result::find()->count()->;
+    }
+
 
 
 }

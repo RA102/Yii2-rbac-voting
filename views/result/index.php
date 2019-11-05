@@ -29,32 +29,32 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
 //            'id',
-
-//            'users.username' => [
-//                    'label' => 'комиссия',
-//                    'filter' => Html::activeDropDownList($searchModel, 'user_id', ArrayHelper::map(Result::find()->all(), 'user_id', 'users.username'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
-//                    'value' => function($data){
-//                        return $data->users->username;
-//                    },
-//
-//                ],
             'member.name' => [
                     'label' => 'Участники',
                     'filter' => Html::activeDropDownList($searchModel, 'member_id', ArrayHelper::map(Result::find()->all(), 'member_id', 'member.name'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
                     'value' => function($data){
                         return $data->member->name;
                     },
-                ],
-            #'result',
-            'type.name' => [
-                'label' => 'Результат',
-                'filter' => Html::activeDropDownList($searchModel, 'status_student_id', ArrayHelper::map(Result::find()->all(), 'status_student_id', 'statusStudent.status'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
+            ],
+            'users.username' => [
+                'label' => 'комиссия',
+                'filter' => Html::activeDropDownList($searchModel, 'user_id', ArrayHelper::map(Result::find()->all(), 'user_id', 'users.username'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
                 'value' => function($data){
-                    return $data->statusStudent->status;
+                    return $data->users->username;
+                },
+
+            ],
+            'type.name' => [
+                'label' => 'Как проголосовал',
+                'filter' => Html::activeDropDownList($searchModel, 'type_id', ArrayHelper::map(Result::find()->all(), 'type_id', 'type.name'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
+                'value' => function($data){
+                    return $data->type->name;
                 },
             ],
+            #'count',
 
-//            ['class' => 'yii\grid\ActionColumn'],
+            #['class' => 'yii\grid\ActionColumn'],
+
         ],
     ]); ?>
 </div>

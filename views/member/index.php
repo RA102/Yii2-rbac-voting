@@ -26,13 +26,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <span>
         <?/*= Html::a('All', ['class' => 'btn btn-success']) */?>
     </span>
-    <span>
-        <?/*= Html::a('Today', ['class' => 'btn btn-success']) */?>
-    </span>
     -->
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 <?php //echo "<pre>"; print_r();die; ?>
+    <?php echo "<pre>"; print_r($dataProvider);die; ?>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,

@@ -80,6 +80,7 @@ class MemberController extends Controller
                 return $this->redirect(['index']);
             }
             $session->set('memberid', $memberid);
+            $session->close();
 
 //            $model->scenario = 'update';   // ?
             $model->user_id = (int)Yii::$app->user->getId();
@@ -205,4 +206,5 @@ class MemberController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
 }
