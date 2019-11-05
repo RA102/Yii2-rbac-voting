@@ -3,13 +3,10 @@
 namespace app\controllers;
 
 use app\models\Result;
-use app\rbac\ManagerRule;
+use app\models\Vote;
 use Yii;
 use app\models\Member;
 use app\models\MemberSearch;
-use yii\helpers\ArrayHelper;
-use yii\helpers\VarDumper;
-use yii\mail\BaseMailer;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -56,9 +53,6 @@ class MemberController extends Controller
      */
     public function afterAction($action, $result)
     {
-//        if ($this->_oldMailPath !== null) {
-//            Yii::$app->getMailer()->setViewPath($this->_oldMailPath);
-//        }
         return parent::afterAction($action, $result);
     }
 
@@ -74,28 +68,34 @@ class MemberController extends Controller
 
 
         // Кнопка голосования "ЗА" "ПРОТИВ" "ВОЗДЕРЖАЛСЯ"
-        if(Yii::$app->request->get('type')) {
 
+        if(Yii::$app->request->get('type') ) {
 
+            $memberid = Yii::$app->request->get('memberid');
+            $model = new Result();
 
-            $model = Result::find()
-                ->where(['member_id' => Yii::$app->request->get('memberid')])
-                ->exists() ? Result::find()
-                ->where(['member_id' => Yii::$app->request->get('memberid')])
-                ->one() : new Result();
+            $session = Yii::$app->session;
+
+            if ($session->has('memberid') && $session->get('memberid') == $memberid) {
+                return $this->redirect(['index']);
+            }
+            $session->set('memberid', $memberid);
+
+//            $model->scenario = 'update';   // ?
             $model->user_id = (int)Yii::$app->user->getId();
             $model->member_id = (int)Yii::$app->request->get('memberid');
             $model->type_id = (int)Yii::$app->request->get('type');
             $model->result_id = ((int)Yii::$app->request->get('type') == 3) ?
-                ++$model->result_id :
-                --$model->result_id;
+                $model->result_id + 1 :
+                $model->result_id - 1;
             $model->status_student_id = ($model->result_id >= 0) ? 4 : 3;
-//                (int)Yii::$app->request->get('type');
+
             $model->save(false);
             $member = Member::findOne(Yii::$app->request->get('memberid'));
             $member->status_student_id = ($model->status_student_id) ? $model->status_student_id : 1;
 
             $member->save(false);
+
         }
 
 
@@ -116,10 +116,6 @@ class MemberController extends Controller
 
             $model->save(false);
             return $this->redirect(['index']);
-        }
-
-        if(Yii::$app->request->isAjax) {
-            var_dump(Yii::$app->request->getIsAjax());
         }
 
         return $this->render('index', [

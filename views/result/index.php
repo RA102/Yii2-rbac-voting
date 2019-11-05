@@ -28,16 +28,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+//            'id',
 
-            'users.username' => [
-                    'label' => 'комиссия',
-                    'filter' => Html::activeDropDownList($searchModel, 'user_id', ArrayHelper::map(Result::find()->all(), 'user_id', 'users.username'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
-                    'value' => function($data){
-                        return $data->users->username;
-                    },
-
-                ],
+//            'users.username' => [
+//                    'label' => 'комиссия',
+//                    'filter' => Html::activeDropDownList($searchModel, 'user_id', ArrayHelper::map(Result::find()->all(), 'user_id', 'users.username'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
+//                    'value' => function($data){
+//                        return $data->users->username;
+//                    },
+//
+//                ],
             'member.name' => [
                     'label' => 'Участники',
                     'filter' => Html::activeDropDownList($searchModel, 'member_id', ArrayHelper::map(Result::find()->all(), 'member_id', 'member.name'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
@@ -54,9 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+//            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-
-
 </div>

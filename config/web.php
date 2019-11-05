@@ -46,6 +46,10 @@ $config = [
                 ],
             ],
         ],
+        // Уставновка формата даты
+        'formatter' => [
+          'dateFormat' => 'd-m-Y',
+        ],
         'db' => $db,
 
         'urlManager' => [

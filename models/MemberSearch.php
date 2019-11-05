@@ -40,6 +40,14 @@ class MemberSearch extends Member
      */
     public function search($params)
     {
+        if (\Yii::$app->user->identity)
+//        $params['MemberSearch']['data'] = \Yii::$app->formatter->asDate($params['MemberSearch']['data'], 'php: Y-m-d');
+
+        /*
+         * echo "<pre>";
+        print_r($params);die;
+        */
+
         $query = Member::find();
 
         // add conditions that should always apply here
@@ -61,7 +69,7 @@ class MemberSearch extends Member
             'id' => $this->id,
             'active' => $this->active,
             'status_student_id' => $this->status_student_id,
-            'data' => $this->data,
+            'data' => $this->data,  //\Yii::$app->formatter->asDate($this->data, 'php: j.n.Y'),
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

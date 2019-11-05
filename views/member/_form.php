@@ -26,6 +26,7 @@ use yii\widgets\ActiveForm;
 
 <!--    --><?//= $form->field($model, 'status_student_id')->textInput() ?>
 
+
     <?= $form->field($model, 'data')->textInput(['style' => 'width: min-content;', 'type' => 'date']) ?>
 
     <div class="form-group">
