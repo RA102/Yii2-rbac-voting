@@ -85,6 +85,11 @@ class Member extends \yii\db\ActiveRecord
         $this->data = strtotime($value);
     }
 
+    public function getUser()
+    {
+        return
+    }
+
 
     /**
      * @return \yii\db\ActiveQuery
@@ -92,6 +97,14 @@ class Member extends \yii\db\ActiveRecord
     public function getStatus()
     {
         return $this->hasOne(StatusStudent::className(), ['id' => 'status_student_id']);
+    }
+
+    /**
+     *  Для названия
+     */
+    public function getStatusName()
+    {
+        return $this->status->status;
     }
 
     public function getResult()

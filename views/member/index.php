@@ -7,6 +7,7 @@ use app\models\Member;
 use app\models\Vote;
 
 
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\MemberSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -34,26 +35,55 @@ $this->params['breadcrumbs'][] = $this->title;
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'id' => 'container',
-            'options' => ['style' => 'max-width: max-content'],
+            'options' => ['style' => 'max-width: max-content;'],
             'tableOptions' => ['class' => 'table table-bordered'],
+            #'emptyCell' => '-',
             'rowOptions' => function($model) {
                 return ($model->active) ? ['class' => 'mark-row'] : false;
             },
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
                 #'id',
-                'name',
-                'faculty',
-                'department',
-                'specialty',
-                 [
-                    'label' => '',
-                    'format' => 'raw',
-                    'visible' => Yii::$app->user->can('accessVote'),
-                    'contentOptions' => ['class' => 'd-table-cell'],
+                'name' => [
+                    'label' => 'ФИО',
+                    'filter'=> [
+                        Html::activeDropDownList($searchModel, 'name', ArrayHelper::map(Member::find()->all(), 'name', 'name'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
+
+                    ],
+                    'contentOptions' => ['style' => 'vertical-align: middle'],
                     'value' => function($data) {
-                        return $data->result->type->name;
+                        return $data->name;
                     },
+                ],
+                'faculty' => [
+                    'label' => 'Факультет',
+                    'contentOptions' => ['style' => 'vertical-align: middle'],
+                    'value' => function($data) {
+                        return $data->faculty;
+                    }
+                ],
+                'department' => [
+                        'label' => 'Департамент',
+                        'contentOptions' => ['style' => 'vertical-align: middle'],
+                        'value' => function($data) {
+                            return $data->department;
+                        }
+                ],
+                'specialty' => [
+                    'label' => 'Специальность',
+                    'contentOptions' => ['style' => 'vertical-align: middle'],
+                    'value' => function($data) {
+                        return $data->specialty;
+                    }
+                ],
+                 [
+                     'label' => '',
+                     'format' => 'raw',
+                     'visible' => Yii::$app->user->can('accessVote'),
+                     'contentOptions' => ['class' => 'd-table-cell', 'style' => 'vertical-align: middle;'],
+                     'value' => function($data) {
+                        return $data->result->type->name;
+                     },
 
                 ],
                 #'theme',
@@ -81,24 +111,24 @@ $this->params['breadcrumbs'][] = $this->title;
                     'label' => 'Кнопки',
                     'format' => 'raw',
                     'visible' => Yii::$app->user->can('accessVote'),
-                    'contentOptions' => ['class' => 'd-table-cell'],
+                    'contentOptions' => ['class' => 'd-table-cell', 'style' => 'vertical-align: middle;'],
                     'value' => function($data) {
                          if ($data->active == 2) {
                              return Html::a('За', ['index?type=3&memberid='.$data->id], ['class' => 'btn btn-success btn-sm  mr-1'] ) .
                             Html::a('Против', ['index?type=1&memberid='.$data->id], ['class' => 'btn btn-danger btn-sm  mr-1'] ) .
-                            Html::a('Воздержался', ['index?type=2&memberid='.$data->id], ['class' => 'btn btn-warning  btn-sm']);
+                            Html::a('Недействительный', ['index?type=2&memberid='.$data->id], ['class' => 'btn btn-warning  btn-sm']);
                         } else {
                              return Html::a('За', ['index?type=3&memberid=' . $data->id],['class' => 'btn btn-success btn-sm  mr-1 disabled']) .
                             Html::a('Против', ['index?type=1&memberid=' . $data->id], ['class' => 'btn btn-danger btn-sm  mr-1 disabled']) .
-                            Html::a('Воздержался', ['index?type=2&memberid=' . $data->id], ['class' => 'btn btn-warning  btn-sm disabled']);
+                            Html::a('Недействительный', ['index?type=2&memberid=' . $data->id], ['class' => 'btn btn-warning  btn-sm disabled']);
                         }
                     },
                 ],
                 'data' => [
                     'label' => 'Дата',
-                    'format' => ['date', 'php:d-m-Y'],
+                    'format' => ['date', 'php:d.m.Y'],
                     'visible' => Yii::$app->user->can('accessAppoint'),
-                    'filter' => Html::activeDropDownList($searchModel, 'data', ArrayHelper::map(Member::find()->all(), 'data', 'data'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
+                    'filter' => Html::activeDropDownList($searchModel, 'data', ArrayHelper::map(Member::find()->all(), 'data', 'data'), ['prompt' => 'Все', 'class' => 'form-control form-control-sm']),
                     'value' => function($data){
                         return $data->data;
                     },
@@ -115,7 +145,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 ],
 
-                ['class' => 'yii\grid\ActionColumn'],
+                ['class' => 'yii\grid\ActionColumn', 'headerOptions' => ['width' => '40'], 'template' => '{view}{link}'],
             ],
         ]); ?>
 </div>
