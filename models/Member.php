@@ -87,7 +87,7 @@ class Member extends \yii\db\ActiveRecord
 
     public function getUser()
     {
-        return
+        return Member::find()->where(['active' => 2])->one();
     }
 
 
@@ -100,7 +100,7 @@ class Member extends \yii\db\ActiveRecord
     }
 
     /**
-     *  Для названия
+     * ?  Для названия
      */
     public function getStatusName()
     {

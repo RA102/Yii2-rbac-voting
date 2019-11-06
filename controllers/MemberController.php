@@ -7,6 +7,7 @@ use app\models\Vote;
 use Yii;
 use app\models\Member;
 use app\models\MemberSearch;
+use yii\debug\models\timeline\Search;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -65,9 +66,6 @@ class MemberController extends Controller
     {
         $searchModel = new MemberSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-
-
 
         // Кнопка голосования "ЗА" "ПРОТИВ" "ВОЗДЕРЖАЛСЯ"
 
@@ -130,11 +128,12 @@ class MemberController extends Controller
 
     public function actionIndex2()
     {
-        $activeUser = Member::find()->where(['active' => 2])->one();
+//        $searchModel = new MemberSearch();
+//        $activeUser = $searchModel->search(Yii::$app->request->queryParams);
+        $data =new Member();
+        $activeUser = $data->getUser();
 
-//        echo "<pre>"; print_r($activeUser);
-
-        return $this->render('index2', compact('activeUser'));
+        return $this->render('index2', [ 'activeUser' => $activeUser ]);
     }
 
 
