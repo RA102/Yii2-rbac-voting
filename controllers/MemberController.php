@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Result;
+use app\models\User;
 use app\models\Vote;
 use Yii;
 use app\models\Member;
@@ -103,6 +104,11 @@ class MemberController extends Controller
 
         // Кнопка "Назначить"
         if(Yii::$app->request->get('active')) {
+            $prevStudent = Member::findOne()
+            if ($session->has('memberid') || $session->get('memberid') == $memberid ||  ) {
+
+            }
+
             $model = Member::find()
                 ->where(['active' => 2])
                 ->all();

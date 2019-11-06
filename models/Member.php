@@ -85,9 +85,10 @@ class Member extends \yii\db\ActiveRecord
         $this->data = strtotime($value);
     }
 
-    public function getUser()
+    public static function setUser()
     {
-        return Member::find()->where(['active' => 2])->one();
+        return User::find()->asArray()->all();
+
     }
 
 

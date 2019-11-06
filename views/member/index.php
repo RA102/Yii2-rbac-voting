@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <span>
-        <?= Html::a('Create Member', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Member', ['create'], ['class' => 'btn btn-success'] ) ?>
     </span>
     <!--
     <span>
@@ -35,9 +35,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'id' => 'container',
-            'options' => ['style' => 'max-width: max-content;'],
+            'options' => ['style' => 'max-width: max-content;', 'text-align: center;' ],
             'tableOptions' => ['class' => 'table table-bordered'],
-            #'emptyCell' => '-',
             'rowOptions' => function($model) {
                 return ($model->active) ? ['class' => 'mark-row'] : false;
             },
@@ -140,7 +139,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'contentOptions' => ['class' => 'd-table-cell'],
                     'value' => function($data) {
     //                    return Html::a('Защита', ['index?status=2&memberid='.$data->id], ['class' => 'btn btn-success btn-sm  mr-1',  'id' => 'appoint'] );
-                        return Html::a('Защита', ['index?active=2&memberid='.$data->id], ['class' => 'btn btn-success btn-sm  mr-1',  'id' => 'appoint'] );
+                        return Html::a('Назначить', ['index?active=2&memberid='.$data->id], ['class' => 'btn btn-success btn-sm  mr-1',  'id' => 'appoint'] );
                     },
 
                 ],
