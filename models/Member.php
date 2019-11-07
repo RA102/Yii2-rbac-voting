@@ -115,20 +115,18 @@ class Member extends \yii\db\ActiveRecord
 
     public function getUserIdsByRole($role)
     {
-        #'SELECT user_id FROM auth_assignment WHERE auth_assignment.item_name = :role ';
-//        $sql = (new Query())
-//            ->select('user_id')
-//            ->from('auth_assignment')
-//            ->where('auth_assignment.item_name=:role',[':role' => $role])
-//            ->all();
+
         return (new Query())
             ->select('user_id')
             ->from('auth_assignment')
             ->where('auth_assignment.item_name=:role',[':role' => $role])
             ->all();
-//            static::find()->select('user_id')
-//            ->where('auth_assignment.item_name = $role')
-//            ->all();
     }
+
+    public function getMemberIdByActive()
+    {
+        return Member::find()->where(['active' => 2]);
+    }
+
 
 }

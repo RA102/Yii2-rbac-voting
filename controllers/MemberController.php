@@ -71,6 +71,8 @@ class MemberController extends Controller
         $searchModel = new MemberSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+//        Yii::$app->session->destroy();
+
 
 
 
@@ -78,25 +80,30 @@ class MemberController extends Controller
 
         if(Yii::$app->request->get('type') ) {
 
-            $memberid = Yii::$app->request->get('memberid');
-            $model = new Result();
+            $memberId = Yii::$app->request->get('memberid');
+            $userId = Yii::$app->user->getId();
+            $model = Result::findOne([
+                    'user_id' => $userId,
+                    'member_id' => $memberId,
+                ]);
 
-            $session = Yii::$app->session;
+//            $session = Yii::$app->session;
 
-            if ($session->has('memberid') && $session->get('memberid') == $memberid) {
-                return $this->redirect(['index']);
-            }
-            $session->set('memberid', $memberid);
+//            if ($session->has('memberid') && $session->get('memberid') == $memberId) {
+//                return $this->redirect(['index']);
+//            }
+//            $session->set('memberid', $memberId);
 //            $session->close();
 
 //            $model->scenario = 'update';   // ?
-            $model->user_id = (int)Yii::$app->user->getId();
-            $model->member_id = (int)Yii::$app->request->get('memberid');
+//            $model->user_id = (int)Yii::$app->user->getId();
+//            $model->member_id = (int)Yii::$app->request->get('memberid');
             $model->type_id = (int)Yii::$app->request->get('type');
             $model->result_id = ((int)Yii::$app->request->get('type') == 3) ?
                 $model->result_id + 1 :
                 $model->result_id - 1;
             $model->status_student_id = ($model->result_id >= 0) ? 4 : 3;
+            $model->active = 1;
 
             $model->save(false);
             $member = Member::findOne(Yii::$app->request->get('memberid'));
@@ -109,14 +116,28 @@ class MemberController extends Controller
         $model = new Member();
         $allUsersByRoleUser = $model->getUserIdsByRole('user');
 
-
         // Кнопка "Назначить"
+
         if(Yii::$app->request->get('active')) {
 
             // получить id пользователя со Статусом 'Active' = 2 до изменения
             // ? может не надо
             $memberIsActive = Member::findOne(['active' => 2]);
             $idMemberIsActive = $memberIsActive->id;
+//            echo $idMemberIsActive;die;
+
+//            $memberResult = Result::findAll(['member_id' => $idMemberIsActive]);
+            $memberResult = Result::findOne([
+                'member_id' => $idMemberIsActive,
+                'user_id' => Yii::$app->user->getId(),
+            ]);
+
+
+            foreach ($memberResult as $item) {
+                if ($item->type_id == 0) {
+                    $item->type_id = 2;
+                }
+            }
 
             // Получить всех Member у кого Active = 2
             $model = Member::find()
@@ -143,8 +164,6 @@ class MemberController extends Controller
                 $createResult->member_id = (integer)Yii::$app->request->get('memberid');
                 $createResult->save(false);
             }
-
-            $allMemberBy
 
             return $this->redirect(['index']);
         }

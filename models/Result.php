@@ -12,6 +12,7 @@ use Yii;
  * @property int $member_id
  * @property int $result_id
  * @property int $type_id
+ * @property int $active
  *
  * @property User $member
  */
@@ -32,7 +33,7 @@ class Result extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'member_id', 'result_id', 'type_id'], 'required'],
-            [['user_id', 'member_id', 'result_id', 'type_id', 'status_student_id'], 'integer'],
+            [['user_id', 'member_id', 'result_id', 'type_id', 'status_student_id', 'active'], 'integer'],
             [['member_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['member_id' => 'id']],
         ];
     }
@@ -49,6 +50,7 @@ class Result extends \yii\db\ActiveRecord
             'result_id' => 'Result ID',
             'type_id' => 'Type ID',
             'status_student_id' => 'Status Student',
+            'active' => 'Active'
         ];
     }
 
@@ -72,12 +74,5 @@ class Result extends \yii\db\ActiveRecord
     {
         return $this->hasOne(StatusStudent::className(), ['id' => 'status_student_id']);
     }
-
-    public function getCountVote()
-    {
-        return ; #Result::find()->count()->;
-    }
-
-
 
 }
