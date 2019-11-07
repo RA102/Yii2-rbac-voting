@@ -112,19 +112,24 @@ class MemberController extends Controller
 
         // Кнопка "Назначить"
         if(Yii::$app->request->get('active')) {
-            $memberIsActive = Member::findOne('active');
-            echo "<pre>";
-            print_r($memberIsActive);die;
 
+            // получить id пользователя со Статусом 'Active' = 2 до изменения
+            // ? может не надо
+            $memberIsActive = Member::findOne(['active' => 2]);
+            $idMemberIsActive = $memberIsActive->id;
+
+            // Получить всех Member у кого Active = 2
             $model = Member::find()
                 ->where(['active' => 2])
                 ->all();
 
+            // Установить всем Member из массива Active = 1
             foreach ($model as $item) {
                 $item->active = 1;
                 $item->save(false);
             }
 
+            // Установить Member'у по id из кнопки Active = 2
             $model = Member::findOne(Yii::$app->request->get('memberid'));
             $model->status_student_id = (int)Yii::$app->request->get('active');
             $model->active = (int)Yii::$app->request->get('active');
@@ -138,6 +143,8 @@ class MemberController extends Controller
                 $createResult->member_id = (integer)Yii::$app->request->get('memberid');
                 $createResult->save(false);
             }
+
+            $allMemberBy
 
             return $this->redirect(['index']);
         }
