@@ -9,9 +9,12 @@ use Yii;
 use app\models\Member;
 use app\models\MemberSearch;
 use yii\debug\models\timeline\Search;
+use yii\helpers\ArrayHelper;
+use yii\rbac\BaseManager;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use mdm\admin\models\Assignment;
 
 
 /**
@@ -68,6 +71,9 @@ class MemberController extends Controller
         $searchModel = new MemberSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+
+
+
         // Кнопка голосования "ЗА" "ПРОТИВ" "ВОЗДЕРЖАЛСЯ"
 
         if(Yii::$app->request->get('type') ) {
@@ -81,7 +87,7 @@ class MemberController extends Controller
                 return $this->redirect(['index']);
             }
             $session->set('memberid', $memberid);
-            $session->close();
+//            $session->close();
 
 //            $model->scenario = 'update';   // ?
             $model->user_id = (int)Yii::$app->user->getId();
@@ -100,28 +106,39 @@ class MemberController extends Controller
 
         }
 
+        $model = new Member();
+        $allUsersByRoleUser = $model->getUserIdsByRole('user');
 
 
         // Кнопка "Назначить"
         if(Yii::$app->request->get('active')) {
-            $prevStudent = Member::findOne()
-            if ($session->has('memberid') || $session->get('memberid') == $memberid ||  ) {
-
-            }
+            $memberIsActive = Member::findOne('active');
+            echo "<pre>";
+            print_r($memberIsActive);die;
 
             $model = Member::find()
                 ->where(['active' => 2])
                 ->all();
+
             foreach ($model as $item) {
-                $item->active = 0;
+                $item->active = 1;
                 $item->save(false);
             }
 
             $model = Member::findOne(Yii::$app->request->get('memberid'));
             $model->status_student_id = (int)Yii::$app->request->get('active');
             $model->active = (int)Yii::$app->request->get('active');
-
             $model->save(false);
+
+            // Создание полей по кол-ву членов комиссии
+            // в таблице Result
+            foreach ($allUsersByRoleUser as $item) {
+                $createResult = new Result();
+                $createResult->user_id = $item['user_id'];
+                $createResult->member_id = (integer)Yii::$app->request->get('memberid');
+                $createResult->save(false);
+            }
+
             return $this->redirect(['index']);
         }
 

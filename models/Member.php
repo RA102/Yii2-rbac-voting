@@ -113,5 +113,22 @@ class Member extends \yii\db\ActiveRecord
         return Result::find()->where(['user_id'=>Yii::$app->user->id,'member_id'=>$this->id])->one();
     }
 
+    public function getUserIdsByRole($role)
+    {
+        #'SELECT user_id FROM auth_assignment WHERE auth_assignment.item_name = :role ';
+//        $sql = (new Query())
+//            ->select('user_id')
+//            ->from('auth_assignment')
+//            ->where('auth_assignment.item_name=:role',[':role' => $role])
+//            ->all();
+        return (new Query())
+            ->select('user_id')
+            ->from('auth_assignment')
+            ->where('auth_assignment.item_name=:role',[':role' => $role])
+            ->all();
+//            static::find()->select('user_id')
+//            ->where('auth_assignment.item_name = $role')
+//            ->all();
+    }
 
 }

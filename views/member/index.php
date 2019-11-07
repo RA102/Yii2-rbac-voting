@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'options' => ['style' => 'max-width: max-content;', 'text-align: center;' ],
             'tableOptions' => ['class' => 'table table-bordered'],
             'rowOptions' => function($model) {
-                return ($model->active) ? ['class' => 'mark-row'] : false;
+                return ($model->active == 2) ? ['class' => 'mark-row'] : false;
             },
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
@@ -138,13 +138,30 @@ $this->params['breadcrumbs'][] = $this->title;
                     'visible' => Yii::$app->user->can('accessAppoint'),
                     'contentOptions' => ['class' => 'd-table-cell'],
                     'value' => function($data) {
-    //                    return Html::a('Защита', ['index?status=2&memberid='.$data->id], ['class' => 'btn btn-success btn-sm  mr-1',  'id' => 'appoint'] );
-                        return Html::a('Назначить', ['index?active=2&memberid='.$data->id], ['class' => 'btn btn-success btn-sm  mr-1',  'id' => 'appoint'] );
+                        if ($data->active == 1 || $data->active == 2)
+                        {
+                            return Html::a('Назначить', ['index?active=2&memberid='.$data->id], ['class' => 'btn btn-success btn-sm  mr-1 disabled',  'id' => 'appoint'] );
+                        } else {
+                            return Html::a('Назначить', ['index?active=2&memberid='.$data->id], ['class' => 'btn btn-success btn-sm  mr-1',  'id' => 'appoint'] );
+                        }
                     },
 
                 ],
+                '' => [
+                    'label' => '',
+                    'visible' => Yii::$app->user->can('accessAppoint'),
+                    'value' => function($data) {
+                        if( !($data->active) ) {
+                            return 'Не защищался';
+                        } elseif ( $data->active == 1 ) {
+                             return 'Защищался';
+                        } elseif ( $data->active == 2) {
+                            return 'На защите';
+                        }
+                    }
+                ],
 
-                ['class' => 'yii\grid\ActionColumn', 'headerOptions' => ['width' => '40'], 'template' => '{view}{link}'],
+                #['class' => 'yii\grid\ActionColumn', 'headerOptions' => ['width' => '40'], 'template' => '{view}{link}'],
             ],
         ]); ?>
 </div>
