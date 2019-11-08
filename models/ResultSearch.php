@@ -17,7 +17,7 @@ class ResultSearch extends Result
     public function rules()
     {
         return [
-            [['id', 'user_id', 'member_id', 'result_id', 'type_id'], 'integer'],
+            [['id', 'user_id', 'member_id', 'result_id', 'type_id', 'active'], 'integer'],
         ];
     }
 
@@ -64,6 +64,7 @@ class ResultSearch extends Result
             'member_id' => $this->member_id,
             'result_id' => $this->result_id,
             'type_id' => $this->type_id,
+            'active' => $this->active,
         ]);
 
         return $dataProvider;

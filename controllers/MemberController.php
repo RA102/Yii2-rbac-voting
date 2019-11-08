@@ -87,6 +87,7 @@ class MemberController extends Controller
                     'member_id' => $memberId,
                 ]);
 
+
 //            $session = Yii::$app->session;
 
 //            if ($session->has('memberid') && $session->get('memberid') == $memberId) {
@@ -116,28 +117,33 @@ class MemberController extends Controller
         $model = new Member();
         $allUsersByRoleUser = $model->getUserIdsByRole('user');
 
-        // Кнопка "Назначить"
+
+        /*
+         * Кнопка "Назначить"
+         * пользователь Manager
+         */
+
 
         if(Yii::$app->request->get('active')) {
 
             // получить id пользователя со Статусом 'Active' = 2 до изменения
             // ? может не надо
             $memberIsActive = Member::findOne(['active' => 2]);
-            $idMemberIsActive = $memberIsActive->id;
-//            echo $idMemberIsActive;die;
-
-//            $memberResult = Result::findAll(['member_id' => $idMemberIsActive]);
-            $memberResult = Result::findOne([
-                'member_id' => $idMemberIsActive,
-                'user_id' => Yii::$app->user->getId(),
-            ]);
 
 
-            foreach ($memberResult as $item) {
-                if ($item->type_id == 0) {
-                    $item->type_id = 2;
-                }
+            if ($memberIsActive != null) {
+                $idMemberIsActive = $memberIsActive->id;
+
+                $userId = Yii::$app->user->getId();
+
+                $objectMember = new Member();
+                $memberResult = $objectMember->getMember($userId, $idMemberIsActive);
+
+                echo "<pre>";
+                var_dump($memberResult);die;
+
             }
+
 
             // Получить всех Member у кого Active = 2
             $model = Member::find()

@@ -128,5 +128,10 @@ class Member extends \yii\db\ActiveRecord
         return Member::find()->where(['active' => 2]);
     }
 
+    public function getMember($userId, $memberId)
+    {
+        return Result::find()->where(['user_id' => $userId, 'memberId' => $memberId]);
+    }
+
 
 }
