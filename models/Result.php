@@ -12,9 +12,8 @@ use Yii;
  * @property int $member_id
  * @property int $result_id
  * @property int $type_id
+ * @property int $status_student_id
  * @property int $active
- *
- * @property User $member
  */
 class Result extends \yii\db\ActiveRecord
 {
@@ -32,9 +31,8 @@ class Result extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'member_id', 'result_id', 'type_id'], 'required'],
+            [['user_id', 'member_id'], 'required'],
             [['user_id', 'member_id', 'result_id', 'type_id', 'status_student_id', 'active'], 'integer'],
-            [['member_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['member_id' => 'id']],
         ];
     }
 
@@ -49,8 +47,8 @@ class Result extends \yii\db\ActiveRecord
             'member_id' => 'Member ID',
             'result_id' => 'Result ID',
             'type_id' => 'Type ID',
-            'status_student_id' => 'Status Student',
-            'active' => 'Active'
+            'status_student_id' => 'Status Student ID',
+            'active' => 'Active',
         ];
     }
 
@@ -69,7 +67,6 @@ class Result extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Type::className(), ['id' => 'type_id']);
     }
-
     public function getStatusStudent()
     {
         return $this->hasOne(StatusStudent::className(), ['id' => 'status_student_id']);

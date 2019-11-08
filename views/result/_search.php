@@ -25,6 +25,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'type_id') ?>
 
+    <?php // echo $form->field($model, 'status_student_id') ?>
+
+    <?php // echo $form->field($model, 'active') ?>
+
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>

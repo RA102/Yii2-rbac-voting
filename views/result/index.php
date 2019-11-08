@@ -28,13 +28,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-//            'id',
+            //'id',
             'member.name' => [
-                    'label' => 'Участники',
-                    'filter' => Html::activeDropDownList($searchModel, 'member_id', ArrayHelper::map(Result::find()->all(), 'member_id', 'member.name'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
-                    'value' => function($data){
-                        return $data->member->name;
-                    },
+                'label' => 'Участники',
+                'filter' => Html::activeDropDownList($searchModel, 'member_id', ArrayHelper::map(Result::find()->all(), 'member_id', 'member.name'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
+                'value' => function($data){
+                    return $data->member->name;
+                },
             ],
             'users.username' => [
                 'label' => 'комиссия',
@@ -42,7 +42,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function($data){
                     return $data->users->username;
                 },
-
             ],
             'type.name' => [
                 'label' => 'Как проголосовал',
@@ -52,9 +51,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             #'count',
-
             #['class' => 'yii\grid\ActionColumn'],
-
         ],
     ]); ?>
+
+
 </div>

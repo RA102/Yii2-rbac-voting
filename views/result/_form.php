@@ -20,6 +20,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'type_id')->textInput() ?>
 
+    <?= $form->field($model, 'status_student_id')->textInput() ?>
+
+    <?= $form->field($model, 'active')->textInput() ?>
+
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

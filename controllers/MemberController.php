@@ -71,10 +71,6 @@ class MemberController extends Controller
         $searchModel = new MemberSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-//        Yii::$app->session->destroy();
-
-
-
 
         // Кнопка голосования "ЗА" "ПРОТИВ" "ВОЗДЕРЖАЛСЯ"
 
@@ -120,29 +116,32 @@ class MemberController extends Controller
 
         /*
          * Кнопка "Назначить"
-         * пользователь Manager
+         * User - Manager
+         * ID - 2
          */
-
 
         if(Yii::$app->request->get('active')) {
 
             // получить id пользователя со Статусом 'Active' = 2 до изменения
-            // ? может не надо
-            $memberIsActive = Member::findOne(['active' => 2]);
+            // ? может не пригодится
+
+            $memberIsActive = Result::find()
+                ->where(['active' => 2])
+                ->all();
+            // echo "<pre>"; print_r($memberIsActive);die;
 
 
-            if ($memberIsActive != null) {
-                $idMemberIsActive = $memberIsActive->id;
-
-                $userId = Yii::$app->user->getId();
-
-                $objectMember = new Member();
-                $memberResult = $objectMember->getMember($userId, $idMemberIsActive);
-
-                echo "<pre>";
-                var_dump($memberResult);die;
-
+            if (!empty($memberIsActive)) {
+                foreach ($memberIsActive as $item) {
+                    if($item->type_id == 0) {
+                        $item->type_id = 2;
+                    }
+                    $item->active = 1;
+                    $item->save(false);
+                }
             }
+
+
 
 
             // Получить всех Member у кого Active = 2
@@ -185,8 +184,7 @@ class MemberController extends Controller
     {
 //        $searchModel = new MemberSearch();
 //        $activeUser = $searchModel->search(Yii::$app->request->queryParams);
-        $data =new Member();
-        $activeUser = $data->getUser();
+        $activeUser = Member::find()->where(['active' => 2])->one();
 
         return $this->render('index2', [ 'activeUser' => $activeUser ]);
     }

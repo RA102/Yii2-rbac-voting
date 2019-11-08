@@ -14,68 +14,67 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="member-view">
 
-    <?= DetailView::widget([
-        'model' => $activeUser,
-        'attributes' => [
-            [
-                'label' => 'ФИО',
-                'value' => $activeUser->name,
-            ],
-            [
-                'label' => 'Факультет',
-                'value' => $activeUser->faculty,
-            ],
-            [
-                'label' => 'Департамент',
-                'value' => $activeUser->department,
-            ],
-            [
-                'label' => 'Специальность',
-                'value' => $activeUser->specialty,
-            ],
-            [
-                'label' => 'Тема',
-                'contentOptions' => ['class' => '']
-                'value' => $activeUser->theme,
-            ],
+<!--    --><?//= DetailView::widget([
+//        'model' => $activeUser,
+//        'attributes' => [
+//            [
+//                'label' => 'ФИО',
+//                'value' => $activeUser->name,
+//            ],
+//            [
+//                'label' => 'Факультет',
+//                'value' => $activeUser->faculty,
+//            ],
+//            [
+//                'label' => 'Департамент',
+//                'value' => $activeUser->department,
+//            ],
+//            [
+//                'label' => 'Специальность',
+//                'value' => $activeUser->specialty,
+//            ],
+//            [
+//                'label' => 'Тема',
+//                'contentOptions' => ['class' => ''],
+//                'value' => $activeUser->theme,
+//            ],
+//
+//            [
+//                'format' => 'raw',
+//                'label' => '',
+//                'value' => Html::a('За', ['index?type=3&memberid='.$data->id], ['class' => 'btn btn-success btn-bg  mr-1'] ) .
+//                            Html::a('Против', ['index?type=1&memberid='.$data->id], ['class' => 'btn btn-danger btn-bg  mr-1'] ) ,
+////                            Html::a('Недействительный', ['index?type=2&memberid='.$data->id], ['class' => 'btn btn-warning  btn-bg']),
+//            ],
+//        ],
+//    ])?>
 
-            [
-                'format' => 'raw',
-                'label' => '',
-                'value' => Html::a('За', ['index?type=3&memberid='.$data->id], ['class' => 'btn btn-success btn-bg  mr-1'] ) .
-                            Html::a('Против', ['index?type=1&memberid='.$data->id], ['class' => 'btn btn-danger btn-bg  mr-1'] ) ,
-//                            Html::a('Недействительный', ['index?type=2&memberid='.$data->id], ['class' => 'btn btn-warning  btn-bg']),
-            ],
-        ],
-    ])?>
+
+
+
+
+
+<h2 class="text-center">
+    <?= $activeUser->name ?>
+</h2>
+<h3 class="text-center">
+    <?= $activeUser->faculty ?>
+</h3>
+<h3 class="text-center">
+    <?= $activeUser->department ?>
+</h3>
+<h3 class="text-center">
+    <?= $activeUser->specialty ?>
+</h3>
+<h3 class="text-center">
+    <?= $activeUser->theme ?>
+</h3>
+
+<?=
+Html::a('За', ['index?type=3&memberid='.$data->id], ['class' => 'btn btn-success btn-bg  mr-1'] ) .
+Html::a('Против', ['index?type=1&memberid='.$data->id], ['class' => 'btn btn-danger btn-bg  mr-1'] )
+?>
 </div>
-
-
-
-<?= Html::tag('div', Html::encode($activeUser->name), ['class' => 'text-center']) ?>
-<!---->
-<!--<h2 class="text-center">-->
-<!--    --><?//= $activeUser->name ?>
-<!--</h2>-->
-<!--<h3 class="text-center">-->
-<!--    --><?//= $activeUser->faculty ?>
-<!--</h3>-->
-<!--<h3 class="text-center">-->
-<!--    --><?//= $activeUser->department ?>
-<!--</h3>-->
-<!--<h3 class="text-center">-->
-<!--    --><?//= $activeUser->specialty ?>
-<!--</h3>-->
-<!--<h3 class="text-center">-->
-<!--    --><?//= $activeUser->theme ?>
-<!--</h3>-->
-<!---->
-<?php
-//Html::a('За', ['index?type=3&memberid='.$data->id], ['class' => 'btn btn-success btn-sm  mr-1'] ) .
-//Html::a('Против', ['index?type=1&memberid='.$data->id], ['class' => 'btn btn-danger btn-sm  mr-1'] ) .
-//Html::a('Недействительный', ['index?type=2&memberid='.$data->id], ['class' => 'btn btn-warning  btn-sm']);
-//?>
-
 <?php
 $js = "let wi = document.querySelectorAll('tbody tr th');
  for (let i=0; i < wi.length; i++) {

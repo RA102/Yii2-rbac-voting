@@ -115,11 +115,9 @@ $this->params['breadcrumbs'][] = $this->title;
                          if ($data->active == 2) {
                              return Html::a('За', ['index?type=3&memberid='.$data->id], ['class' => 'btn btn-success btn-bg  mr-1'] ) .
                             Html::a('Против', ['index?type=1&memberid='.$data->id], ['class' => 'btn btn-danger btn-bg  mr-1'] );
-//                            Html::a('Недействительный', ['index?type=2&memberid='.$data->id], ['class' => 'btn btn-warning  btn-sm']);
                         } else {
                              return Html::a('За', ['index?type=3&memberid=' . $data->id],['class' => 'btn btn-success btn-bg  mr-1 disabled']) .
                             Html::a('Против', ['index?type=1&memberid=' . $data->id], ['class' => 'btn btn-danger btn-bg  mr-1 disabled']);
-//                            Html::a('Недействительный', ['index?type=2&memberid=' . $data->id], ['class' => 'btn btn-warning  btn-sm disabled']);
                         }
                     },
                 ],

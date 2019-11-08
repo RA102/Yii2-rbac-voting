@@ -17,7 +17,7 @@ class ResultSearch extends Result
     public function rules()
     {
         return [
-            [['id', 'user_id', 'member_id', 'result_id', 'type_id', 'active'], 'integer'],
+            [['id', 'user_id', 'member_id', 'result_id', 'type_id', 'status_student_id', 'active'], 'integer'],
         ];
     }
 
@@ -55,8 +55,6 @@ class ResultSearch extends Result
             return $dataProvider;
         }
 
-
-
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
@@ -64,6 +62,7 @@ class ResultSearch extends Result
             'member_id' => $this->member_id,
             'result_id' => $this->result_id,
             'type_id' => $this->type_id,
+            'status_student_id' => $this->status_student_id,
             'active' => $this->active,
         ]);
 
