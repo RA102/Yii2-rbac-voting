@@ -81,7 +81,7 @@ $this->params['breadcrumbs'][] = $this->title;
                      'visible' => Yii::$app->user->can('accessVote'),
                      'contentOptions' => ['class' => 'd-table-cell', 'style' => 'vertical-align: middle;'],
                      'value' => function($data) {
-                        return $data->result->type->name;
+                        return ($data->result == 0) ? ' ' : $data->result->type->name;
                      },
 
                 ],

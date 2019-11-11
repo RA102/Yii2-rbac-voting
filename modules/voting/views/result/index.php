@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Как проголосовал',
                 'filter' => Html::activeDropDownList($searchModel, 'type_id', ArrayHelper::map(Result::find()->all(), 'type_id', 'type.name'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
                 'value' => function($data){
-                    return $data->type->name;
+                    return ($data->type == 0) ? ' ' : $data->type->name;
                 },
             ],
             #'count',
