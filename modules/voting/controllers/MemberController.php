@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\voting\controllers;
 
 use app\models\Result;
 use app\models\User;

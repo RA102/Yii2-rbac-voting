@@ -77,6 +77,9 @@ $config = [
             'layout' => 'left-menu',
             'mainLayout' => '@app/views/layouts/admin.php',
         ],
+        'voting' => [
+            'class' => 'app\modules\voting\Module',
+        ],
     ],
 
     'as access' => [
