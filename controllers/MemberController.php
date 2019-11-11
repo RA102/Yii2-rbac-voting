@@ -69,11 +69,9 @@ class MemberController extends Controller
     public function actionIndex()
     {
         $userIp = Yii::$app->request->getUserIP();
-<<<<<<< HEAD
 
-=======
         
->>>>>>> 8d6f4b538891288ebd75b59ebf4d718c16a45d98
+
         $searchModel = new MemberSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
