@@ -12,47 +12,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Members', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="member-view">
-
-<!--    --><?//= DetailView::widget([
-//        'model' => $activeUser,
-//        'attributes' => [
-//            [
-//                'label' => 'ФИО',
-//                'value' => $activeUser->name,
-//            ],
-//            [
-//                'label' => 'Факультет',
-//                'value' => $activeUser->faculty,
-//            ],
-//            [
-//                'label' => 'Департамент',
-//                'value' => $activeUser->department,
-//            ],
-//            [
-//                'label' => 'Специальность',
-//                'value' => $activeUser->specialty,
-//            ],
-//            [
-//                'label' => 'Тема',
-//                'contentOptions' => ['class' => ''],
-//                'value' => $activeUser->theme,
-//            ],
-//
-//            [
-//                'format' => 'raw',
-//                'label' => '',
-//                'value' => Html::a('За', ['index?type=3&memberid='.$data->id], ['class' => 'btn btn-success btn-bg  mr-1'] ) .
-//                            Html::a('Против', ['index?type=1&memberid='.$data->id], ['class' => 'btn btn-danger btn-bg  mr-1'] ) ,
-////                            Html::a('Недействительный', ['index?type=2&memberid='.$data->id], ['class' => 'btn btn-warning  btn-bg']),
-//            ],
-//        ],
-//    ])?>
-
-
-
-
-
+<div class="member-view text-center">
 
 <h2 class="text-center">
     <?= $activeUser->name ?>
@@ -71,10 +31,11 @@ $this->params['breadcrumbs'][] = $this->title;
 </h3>
 
 <?=
-Html::a('За', ['index?type=3&memberid='.$data->id], ['class' => 'btn btn-success btn-bg  mr-1'] ) .
-Html::a('Против', ['index?type=1&memberid='.$data->id], ['class' => 'btn btn-danger btn-bg  mr-1'] )
+Html::a('За', ['index?type=3&memberid='.$data->id], ['class' => 'btn btn-success btn-bg  mr-1', 'style' => 'width: 100px; font-size: 22px;'] ) .
+Html::a('Против', ['index?type=1&memberid='.$data->id], ['class' => 'btn btn-danger btn-bg  mr-1', 'style' => 'width: 100px; font-size: 22px;'] )
 ?>
 </div>
+
 <?php
 $js = "let wi = document.querySelectorAll('tbody tr th');
  for (let i=0; i < wi.length; i++) {

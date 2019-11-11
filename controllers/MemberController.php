@@ -68,6 +68,8 @@ class MemberController extends Controller
      */
     public function actionIndex()
     {
+        $userIp = Yii::$app->request->getUserIP();
+        
         $searchModel = new MemberSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -185,6 +187,7 @@ class MemberController extends Controller
 //        $searchModel = new MemberSearch();
 //        $activeUser = $searchModel->search(Yii::$app->request->queryParams);
         $activeUser = Member::find()->where(['active' => 2])->one();
+
 
         return $this->render('index2', [ 'activeUser' => $activeUser ]);
     }

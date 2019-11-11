@@ -127,7 +127,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'visible' => Yii::$app->user->can('accessAppoint'),
                     'filter' => Html::activeDropDownList($searchModel, 'data', ArrayHelper::map(Member::find()->all(), 'data', 'data'), ['prompt' => 'Все', 'class' => 'form-control form-control-sm']),
                     'value' => function($data){
-                        return $data->data;
+                        return Yii::$app->formatter->asDate($data->data);
                     },
                 ],
                 'Student' => [
