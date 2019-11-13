@@ -1,10 +1,10 @@
 <?php
 
-namespace app\models;
+namespace app\modules\voting\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Member;
+use app\modules\voting\models\Member;
 
 /**
  * MemberSearch represents the model behind the search form of `app\models\Member`.

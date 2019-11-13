@@ -2,13 +2,13 @@
 
 namespace app\modules\voting\controllers;
 
-use app\models\Result;
-use app\models\User;
-use app\models\Vote;
+use app\modules\voting\models\Result;
+use app\modules\voting\models\User;
+use app\modules\voting\models\Vote;
 use http\Header;
 use Yii;
-use app\models\Member;
-use app\models\MemberSearch;
+use app\modules\voting\models\Member;
+use app\modules\voting\models\MemberSearch;
 use yii\debug\models\timeline\Search;
 use yii\helpers\ArrayHelper;
 use yii\rbac\BaseManager;

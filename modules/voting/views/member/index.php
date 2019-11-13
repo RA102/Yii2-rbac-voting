@@ -3,8 +3,8 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
-use app\models\Member;
-use app\models\Vote;
+use app\modules\voting\models\Member;
+use app\modules\voting\models\Vote;
 
 
 

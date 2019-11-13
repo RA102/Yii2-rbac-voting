@@ -3,8 +3,8 @@
 namespace app\modules\voting\controllers;
 
 use Yii;
-use app\models\Type;
-use app\models\TypeSearch;
+use app\modules\voting\models\Type;
+use app\modules\voting\models\TypeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
