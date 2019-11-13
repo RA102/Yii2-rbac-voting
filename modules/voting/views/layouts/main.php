@@ -38,9 +38,6 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            Yii::$app->authManager->getRole('counting') ? ['label' => 'Счетная комиссия', 'url' => ['/web/voting/result']] : ['label' => ''],
-            Yii::$app->authManager->getRole('manager') ? ['label' => 'Менеджер', 'url' => ['/web/voting/manager']] : ['label' => ''],
-            Yii::$app->authManager->getRole('user') ? ['label' => 'Члены комиссии', 'url' => ['/web/voting/member']] : ['label' => ''],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Войти', 'url' => ['/site/login']]
             ) : (

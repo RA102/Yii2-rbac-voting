@@ -70,6 +70,7 @@ class MemberController extends Controller
     public function actionIndex()
     {
         $userIp = Yii::$app->request->getUserIP();
+        #var_dump(Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId()));
 
         $searchModel = new MemberSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);

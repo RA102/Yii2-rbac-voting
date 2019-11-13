@@ -38,16 +38,16 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            Yii::$app->authManager->getRole('counting') ? ['label' => 'Счетная комиссия', 'url' => ['/web/voting/result']] : ['label' => ''],
-            Yii::$app->authManager->getRole('manager') ? ['label' => 'Менеджер', 'url' => ['/web/voting/manager']] : ['label' => ''],
-            Yii::$app->authManager->getRole('user') ? ['label' => 'Члены комиссии', 'url' => ['/web/voting/member']] : ['label' => ''],
+            ['label' => 'Главная', 'url' => ['/admin/default/index']],
+            ['label' => 'Новости', 'url' => ['/admin/post/index']],
+            ['label' => 'Пользователи', 'url' => ['/rbac/default/index']],
             Yii::$app->user->isGuest ? (
-                ['label' => 'Войти', 'url' => ['/site/login']]
+            ['label' => 'Войти', 'url' => ['/site/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
-                    'Выход (' . Yii::$app->user->identity->username . ')',
+                    'Выйти (' . Yii::$app->user->identity->username . ')',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()
@@ -79,3 +79,4 @@ AppAsset::register($this);
 </body>
 </html>
 <?php $this->endPage() ?>
+

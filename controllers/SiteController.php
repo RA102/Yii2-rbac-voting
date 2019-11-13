@@ -64,8 +64,12 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->redirect('site/login');
-        #return $this->render('index');
+//        if (Yii::$app->authManager->getRole('user') || Yii::$app->authManager->getRole('manager') ) {
+//            return $this->redirect('/web/voting/member');
+//        } elseif (Yii::$app->authManager->getRole('Counting commission')) {
+//            return $this->redirect('/web/voting/result');
+//        }
+        return $this->render('index');
     }
 
     /**
@@ -73,30 +77,10 @@ class SiteController extends Controller
      *
      * @return Response|string
      */
-//    public function actionLogin()
-//    {
-//        if (!Yii::$app->user->isGuest) {
-//            return $this->goHome();
-//        }
-//
-//        $model = new LoginForm();
-//        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-//            return $this->goBack();
-//        }
-//
-//        $model->password = '';
-//        return $this->render('login', [
-//            'model' => $model,
-//        ]);
-//    }
 
     public function actionLogin()
     {
         if (!Yii::$app->getUser()->isGuest) {
-//            if (Yii::$app->authManager->getRole('user')) {
-//
-//            }
-
             return $this->goHome();
         }
 

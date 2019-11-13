@@ -15,6 +15,13 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        if (\Yii::$app->user->isGuest) {
+            return $this->redirect('/web/site/login');
+        } else if (\Yii::$app->authManager->getRole('user') || \Yii::$app->authManager->getRole('manager')) {
+            return $this->redirect('member');
+        } else if (\Yii::$app->authManager->getRole('counting commission')) {
+            return $this->redirect('result');
+        }
+        #return $this->render('index');
     }
 }
