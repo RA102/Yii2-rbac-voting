@@ -7,6 +7,7 @@ use mdm\admin\models\form\PasswordResetRequest;
 use mdm\admin\models\form\Signup;
 use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
@@ -69,6 +70,7 @@ class SiteController extends Controller
 //        } elseif (Yii::$app->authManager->getRole('Counting commission')) {
 //            return $this->redirect('/web/voting/result');
 //        }
+
         return $this->render('index');
     }
 

@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'id' => 'container',
-            'options' => ['style' => 'max-width: max-content;', 'text-align: center;' ],
+            'options' => ['style' => 'max-width: max-content;', 'text-align: center;'],
             'tableOptions' => ['class' => 'table table-bordered'],
             'rowOptions' => function($model) {
                 return ($model->active == 2) ? ['class' => 'mark-row'] : false;
@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 ],
                  [
-                     'label' => '',
+                     'label' => 'Результат',
                      'format' => 'raw',
                      'visible' => Yii::$app->user->can('accessVote'),
                      'contentOptions' => ['class' => 'd-table-cell', 'style' => 'vertical-align: middle;'],
@@ -85,28 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
                      },
 
                 ],
-                #'theme',
-                #'active',
-//                'type.name' => [
-//                    'label' => 'Статус',
-////                    'filter' => Html::activeDropDownList($searchModel, 'type_id', ArrayHelper::map(Result::find()->all(), 'type_id', 'type.name'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
-//                    'value' => function($data){
-////                        echo "<pre>";
-////                        print_r($data);die;
-//                        return $data->type->name;
-////                        return $
-////                        echo "<pre>"; print_r($data);die;
-//                    },
-//                ],
-//                'status.status' => [
-//                    'label' => 'Статус',
-//                    'filter' => Html::activeDropDownList($searchModel, 'status_student_id', ArrayHelper::map(Member::find()->all(), 'status_student_id', 'status.status'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
-//                    'value' => function($data){
-//                    return $data->status->status;
-//                    },
-//                ],
-
-                'Button' => [
+               'Button' => [
                     'label' => 'Кнопки',
                     'format' => 'raw',
                     'visible' => Yii::$app->user->can('accessVote'),
@@ -146,7 +125,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 ],
                 '' => [
-                    'label' => '',
+                    'label' => 'Статус',
                     'visible' => Yii::$app->user->can('accessAppoint'),
                     'value' => function($data) {
                         if( !($data->active) ) {

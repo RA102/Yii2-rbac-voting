@@ -26,17 +26,17 @@ class MemberController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+//    public function behaviors()
+//    {
+//        return [
+//            'verbs' => [
+//                'class' => VerbFilter::className(),
+//                'actions' => [
+//                    'delete' => ['POST'],
+//                ],
+//            ],
+//        ];
+//    }
 
     /**
      * @inheritdoc
@@ -88,17 +88,6 @@ class MemberController extends Controller
                 ]);
 
 
-//            $session = Yii::$app->session;
-
-//            if ($session->has('memberid') && $session->get('memberid') == $memberId) {
-//                return $this->redirect(['index']);
-//            }
-//            $session->set('memberid', $memberId);
-//            $session->close();
-
-//            $model->scenario = 'update';   // ?
-//            $model->user_id = (int)Yii::$app->user->getId();
-//            $model->member_id = (int)Yii::$app->request->get('memberid');
             $model->type_id = (int)Yii::$app->request->get('type');
             $model->result_id = ((int)Yii::$app->request->get('type') == 3) ?
                 $model->result_id + 1 :

@@ -1,5 +1,6 @@
 <?php
 
+
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
@@ -31,8 +32,8 @@ $this->params['breadcrumbs'][] = $this->title;
 </h3>
 
 <?=
-Html::a('За', ['index?type=3&memberid='.$data->id], ['class' => 'btn btn-success btn-bg  mr-1', 'style' => 'width: 100px; font-size: 22px;'] ) .
-Html::a('Против', ['index?type=1&memberid='.$data->id], ['class' => 'btn btn-danger btn-bg  mr-1', 'style' => 'width: 100px; font-size: 22px;'] )
+Html::a('За', ['index?type=3&memberid=' . Yii::$app->getUser()->getId()], ['class' => 'btn btn-success btn-bg  mr-1', 'style' => 'width: 100px; font-size: 22px;'] ) .
+Html::a('Против', ['index?type=1&memberid='. Yii::$app->user->getId()], ['class' => 'btn btn-danger btn-bg  mr-1', 'style' => 'width: 100px; font-size: 22px;'] )
 ?>
 </div>
 
