@@ -43,12 +43,12 @@ class ResultController extends Controller
     {
         $searchModel = new ResultSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $date = new \DateTime();
-//        var_dump($date);
 
         // Создание документа
         $phpWord = new PhpWord();
-        $phpWord->setDefaultFontName('Times New Roman');
+
+
+        /*$phpWord->setDefaultFontName('Times New Roman');
         $phpWord->getDefaultFontSize(14);
         // Свойства
         $properties = $phpWord->getDocInfo();
@@ -66,14 +66,40 @@ class ResultController extends Controller
             'pageNumberingStart' => 1,
             'borderBottomSize' => 100,
             'borderBottomColor' => 'C0C0C0'
-        );
+        );*/
 
-        $section = $phpWord->addSection($sectionStyle);
+//        $section = $phpWord->addSection($sectionStyle);
 
-        // Текст
+        // Получение всех пользователей
 
         $object = new Result();
         $allNameUsersByRoleUser = ArrayHelper::getColumn($object->getUserIdsByRole('user'), 'username');
+
+        $sectionStyle = array(
+            'orientation' => 'landscape',
+            'marginTop' => Converter::pixelToTwip(10),
+            'marginLeft' => 600,
+            'marginRight' => 600,
+            'colsNum' => 1,
+            'pageNumberingStart' => 1,
+            'borderBottomSize' => 100,
+            'borderBottomColor' => 'C0C0C0'
+        );
+
+        $section = $phpWord->addSection($sectionStyle);
+        $header = array('size' => 16, 'bold' => true);
+
+        // 1. Basic table
+        $section->addText('Комиссия', $header);
+        $table = $section->addTable();
+        
+        for ($r = 0; $r < count($allNameUsersByRoleUser); $r++) {
+            $table->addRow();
+            for ($c = 1; $c <= 3; $c++) {
+                $table->addCell(1750, ['valign' => 'center', 'borderSize' => 1, 'borderColor' => '000000'])->addText("$allNameUsersByRoleUser[$r]");
+
+            }
+        }
 
 //        $temp = User::findByUsername('admin');
 //        $date =  Yii::$app->formatter->asDatetime($temp->updated_at, 'd-m-Y H:m'); -> формат Дата/Время
@@ -81,18 +107,20 @@ class ResultController extends Controller
 //        var_dump($allNameUsersByRoleUser);
 
 
-        $fontStyle = array('name' => 'Arial', 'size' => 36, 'color' => 075776, 'bold' => TRUE, 'italic' => TRUE);
-        $parStyle = array('align' => 'right', 'spaceBefore' => 10);
-
-        foreach ($allNameUsersByRoleUser as $item) {
-            //$text = $item;
-            $section->addText(htmlspecialchars($item), $fontStyle, $parStyle);
-        }
-
+//        $fontStyle = array('name' => 'Arial', 'size' => 36, 'color' => 075776, 'bold' => TRUE, 'italic' => TRUE);
+//        $parStyle = array('align' => 'right', 'spaceBefore' => 10);
+//
+//        foreach ($allNameUsersByRoleUser as $item) {
+//            //$text = $item;
+//            $section->addText(htmlspecialchars($item), $fontStyle, $parStyle);
+//        }
 
         // Создание документа
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
-        $objWriter->save('doc.docx');  // cохраняеться в /web
+        // cохраняеться в /web
+        $objWriter->save('doc.docx');
+        // вывод на экран
+        // $objWriter->save("php://output");
 
         return $this->render('index', [
             'searchModel' => $searchModel,
