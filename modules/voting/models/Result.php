@@ -3,6 +3,7 @@
 namespace app\modules\voting\models;
 
 use Yii;
+use yii\db\Query;
 
 /**
  * This is the model class for table "result".
@@ -70,6 +71,16 @@ class Result extends \yii\db\ActiveRecord
     public function getStatusStudent()
     {
         return $this->hasOne(StatusStudent::className(), ['id' => 'status_student_id']);
+    }
+
+    public function getUserIdsByRole($role)
+    {
+        return (new Query())
+            ->select('username')
+            ->from('user')
+            ->innerJoin('auth_assignment', 'auth_assignment.user_id = user.id')
+            ->where('auth_assignment.item_name=:role',[':role' => $role])
+            ->all();
     }
 
 }

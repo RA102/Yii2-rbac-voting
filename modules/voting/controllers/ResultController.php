@@ -2,9 +2,15 @@
 
 namespace app\modules\voting\controllers;
 
+use app\modules\voting\models\User;
+use Cassandra\Date;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Shared\Converter;
 use Yii;
 use app\modules\voting\models\Result;
 use app\modules\voting\models\ResultSearch;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -37,6 +43,56 @@ class ResultController extends Controller
     {
         $searchModel = new ResultSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $date = new \DateTime();
+//        var_dump($date);
+
+        // Создание документа
+        $phpWord = new PhpWord();
+        $phpWord->setDefaultFontName('Times New Roman');
+        $phpWord->getDefaultFontSize(14);
+        // Свойства
+        $properties = $phpWord->getDocInfo();
+        $properties->setCreated('Name');
+        $properties->setCompany('Company');
+        $properties->setTitle('Title');
+        $properties->setCreated('30-12-2019');
+        //
+        $sectionStyle = array(
+            'orientation' => 'landscape',
+            'marginTop' => Converter::pixelToTwip(10),
+            'marginLeft' => 600,
+            'marginRight' => 600,
+            'colsNum' => 1,
+            'pageNumberingStart' => 1,
+            'borderBottomSize' => 100,
+            'borderBottomColor' => 'C0C0C0'
+        );
+
+        $section = $phpWord->addSection($sectionStyle);
+
+        // Текст
+
+        $object = new Result();
+        $allNameUsersByRoleUser = ArrayHelper::getColumn($object->getUserIdsByRole('user'), 'username');
+
+//        $temp = User::findByUsername('admin');
+//        $date =  Yii::$app->formatter->asDatetime($temp->updated_at, 'd-m-Y H:m'); -> формат Дата/Время
+//        echo "<pre>";
+//        var_dump($allNameUsersByRoleUser);
+
+
+        $fontStyle = array('name' => 'Arial', 'size' => 36, 'color' => 075776, 'bold' => TRUE, 'italic' => TRUE);
+        $parStyle = array('align' => 'right', 'spaceBefore' => 10);
+
+        foreach ($allNameUsersByRoleUser as $item) {
+            //$text = $item;
+            $section->addText(htmlspecialchars($item), $fontStyle, $parStyle);
+        }
+
+
+        // Создание документа
+        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save('doc.docx');  // cохраняеться в /web
 
         return $this->render('index', [
             'searchModel' => $searchModel,

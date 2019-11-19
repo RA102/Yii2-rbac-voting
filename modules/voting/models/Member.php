@@ -115,7 +115,6 @@ class Member extends \yii\db\ActiveRecord
 
     public function getUserIdsByRole($role)
     {
-
         return (new Query())
             ->select('user_id')
             ->from('auth_assignment')

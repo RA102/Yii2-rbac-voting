@@ -154,8 +154,9 @@ class MemberController extends Controller
             $model->active = (int)Yii::$app->request->get('active');
             $model->save(false);
 
-            // Создание полей по кол-ву членов комиссии
-            // в таблице Result
+            /*  Создание полей по кол-ву членов комиссии
+             *  в таблице Result
+             */
             foreach ($allUsersByRoleUser as $item) {
                 $createResult = new Result();
                 $createResult->user_id = $item['user_id'];
