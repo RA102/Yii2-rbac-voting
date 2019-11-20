@@ -7,6 +7,7 @@ use Cassandra\Date;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\SimpleType\JcTable;
 use Yii;
 use app\modules\voting\models\Result;
 use app\modules\voting\models\ResultSearch;
@@ -45,32 +46,16 @@ class ResultController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         // Создание документа
+
         $phpWord = new PhpWord();
 
-
-        /*$phpWord->setDefaultFontName('Times New Roman');
+        $phpWord->setDefaultFontName('Times New Roman');
         $phpWord->getDefaultFontSize(14);
-        // Свойства
-        $properties = $phpWord->getDocInfo();
-        $properties->setCreated('Name');
-        $properties->setCompany('Company');
-        $properties->setTitle('Title');
-        $properties->setCreated('30-12-2019');
-        //
-        $sectionStyle = array(
-            'orientation' => 'landscape',
-            'marginTop' => Converter::pixelToTwip(10),
-            'marginLeft' => 600,
-            'marginRight' => 600,
-            'colsNum' => 1,
-            'pageNumberingStart' => 1,
-            'borderBottomSize' => 100,
-            'borderBottomColor' => 'C0C0C0'
-        );*/
+
 
 //        $section = $phpWord->addSection($sectionStyle);
 
-        // Получение всех пользователей
+        // Получение списка комиссии
 
         $object = new Result();
         $allNameUsersByRoleUser = ArrayHelper::getColumn($object->getUserIdsByRole('user'), 'username');
@@ -86,20 +71,34 @@ class ResultController extends Controller
             'borderBottomColor' => 'C0C0C0'
         );
 
+        $tableStyle = array(
+          'alignment' => JcTable::CENTER,
+          'cellSpacing' => 50
+        );
+
+        $phpWord->addTableStyle(null, $tableStyle);
+
+
+
         $section = $phpWord->addSection($sectionStyle);
-        $header = array('size' => 16, 'bold' => true);
+        $header = array('size' => 16, 'bold' => true, 'align' => 'both');
 
         // 1. Basic table
         $section->addText('Комиссия', $header);
         $table = $section->addTable();
-        
+        $table->addRow();
+        $table->addCell(Converter::pixelToTwip(400), ['valign' => 'both', 'borderSize' => 1, 'borderColor' => '000000', ])->addText("ФИО", ['size' => 16, 'bold' => true, 'valign' => 'both']);
+        $table->addCell(Converter::pixelToTwip(300), ['valign' => 'center', 'borderSize' => 1, 'borderColor' => '000000'])->addText("Подпись");
+        $table->addCell(Converter::pixelToTwip(200), ['valign' => 'center', 'borderSize' => 1, 'borderColor' => '000000'])->addText("Примечание");
+
         for ($r = 0; $r < count($allNameUsersByRoleUser); $r++) {
             $table->addRow();
-            for ($c = 1; $c <= 3; $c++) {
-                $table->addCell(1750, ['valign' => 'center', 'borderSize' => 1, 'borderColor' => '000000'])->addText("$allNameUsersByRoleUser[$r]");
-
-            }
+            $table->addCell(1750, ['valign' => 'center', 'borderSize' => 1, 'borderColor' => '000000'])->addText("$allNameUsersByRoleUser[$r]");
+            $table->addCell(1750, ['valign' => 'center', 'borderSize' => 1, 'borderColor' => '000000']);
+            $table->addCell(1750, ['valign' => 'center', 'borderSize' => 1, 'borderColor' => '000000']);
         }
+
+
 
 //        $temp = User::findByUsername('admin');
 //        $date =  Yii::$app->formatter->asDatetime($temp->updated_at, 'd-m-Y H:m'); -> формат Дата/Время
@@ -115,10 +114,12 @@ class ResultController extends Controller
 //            $section->addText(htmlspecialchars($item), $fontStyle, $parStyle);
 //        }
 
+
         // Создание документа
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         // cохраняеться в /web
         $objWriter->save('doc.docx');
+
         // вывод на экран
         // $objWriter->save("php://output");
 
