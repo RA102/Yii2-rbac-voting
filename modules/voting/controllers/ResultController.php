@@ -3,10 +3,12 @@
 namespace app\modules\voting\controllers;
 
 use app\modules\voting\models\User;
-use Cassandra\Date;
+use Faker\Provider\DateTime;
+use phpDocumentor\Reflection\Types\Integer;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\JcTable;
 use Yii;
 use app\modules\voting\models\Result;
@@ -45,75 +47,45 @@ class ResultController extends Controller
         $searchModel = new ResultSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        // Создание документа
-
+        // Создание документа Word
         $phpWord = new PhpWord();
-
         $phpWord->setDefaultFontName('Times New Roman');
         $phpWord->getDefaultFontSize(14);
+        $sectionStyle = [
+            'orientation' => 'landscape',
+        ];
 
-
-//        $section = $phpWord->addSection($sectionStyle);
-
+        $section = $phpWord->addSection($sectionStyle);
         // Получение списка комиссии
-
         $object = new Result();
         $allNameUsersByRoleUser = ArrayHelper::getColumn($object->getUserIdsByRole('user'), 'username');
 
-        $sectionStyle = array(
-            'orientation' => 'landscape',
-            'marginTop' => Converter::pixelToTwip(10),
-            'marginLeft' => 600,
-            'marginRight' => 600,
-            'colsNum' => 1,
-            'pageNumberingStart' => 1,
-            'borderBottomSize' => 100,
-            'borderBottomColor' => 'C0C0C0'
-        );
-
         $tableStyle = array(
-          'alignment' => JcTable::CENTER,
-          'cellSpacing' => 50
         );
 
-        $phpWord->addTableStyle(null, $tableStyle);
-
-
-
-        $section = $phpWord->addSection($sectionStyle);
-        $header = array('size' => 16, 'bold' => true, 'align' => 'both');
+        $cellHCentered = array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER);
 
         // 1. Basic table
-        $section->addText('Комиссия', $header);
-        $table = $section->addTable();
-        $table->addRow();
-        $table->addCell(Converter::pixelToTwip(400), ['valign' => 'both', 'borderSize' => 1, 'borderColor' => '000000', ])->addText("ФИО", ['size' => 16, 'bold' => true, 'valign' => 'both']);
-        $table->addCell(Converter::pixelToTwip(300), ['valign' => 'center', 'borderSize' => 1, 'borderColor' => '000000'])->addText("Подпись");
-        $table->addCell(Converter::pixelToTwip(200), ['valign' => 'center', 'borderSize' => 1, 'borderColor' => '000000'])->addText("Примечание");
+
+        $table = $section->addTable($tableStyle);
+        $table->addRow(Converter::cmToTwip(1));
+        $table->addCell(Converter::cmToTwip(15), array('borderSize' => 1, 'borderColor' => '000000'))->addText("ФИО", array('size' => 14), array('spaceBefore' => Converter::cmToTwip(0.2), 'align' => 'center'));
+        $table->addCell(Converter::cmToTwip(5), array('borderSize' => 1, 'borderColor' => '000000'))->addText("Подпись", array('size' => 14), array('spaceBefore' => Converter::cmToTwip(.2), 'align' => 'center'));
+        $table->addCell(Converter::cmToTwip(5), ['borderSize' => 1, 'borderColor' => '000000'])->addText("Примечание", array('size' => 14), array('spaceBefore' => Converter::cmToTwip(.2), 'align' => 'center'));
 
         for ($r = 0; $r < count($allNameUsersByRoleUser); $r++) {
-            $table->addRow();
-            $table->addCell(1750, ['valign' => 'center', 'borderSize' => 1, 'borderColor' => '000000'])->addText("$allNameUsersByRoleUser[$r]");
-            $table->addCell(1750, ['valign' => 'center', 'borderSize' => 1, 'borderColor' => '000000']);
-            $table->addCell(1750, ['valign' => 'center', 'borderSize' => 1, 'borderColor' => '000000']);
+            $table->addRow(Converter::cmToTwip(1));
+            $table->addCell(null, ['borderSize' => 1, 'borderColor' => '000000'])->addText(htmlspecialchars($allNameUsersByRoleUser[$r]), array('size' => 14), ['spaceBefore' => Converter::cmToTwip(.2)]);
+            $table->addCell(null, ['borderSize' => 1, 'borderColor' => '000000']);
+            $table->addCell(null, ['borderSize' => 1, 'borderColor' => '000000']);
         }
 
+        $date = date('d-m-Y', time());
 
 
-//        $temp = User::findByUsername('admin');
-//        $date =  Yii::$app->formatter->asDatetime($temp->updated_at, 'd-m-Y H:m'); -> формат Дата/Время
-//        echo "<pre>";
-//        var_dump($allNameUsersByRoleUser);
 
-
-//        $fontStyle = array('name' => 'Arial', 'size' => 36, 'color' => 075776, 'bold' => TRUE, 'italic' => TRUE);
-//        $parStyle = array('align' => 'right', 'spaceBefore' => 10);
-//
-//        foreach ($allNameUsersByRoleUser as $item) {
-//            //$text = $item;
-//            $section->addText(htmlspecialchars($item), $fontStyle, $parStyle);
-//        }
-
+        $section->addText('_______________ ', null, ['align' => 'right', 'spaceBefore' => Converter::cmToTwip(2)]);
+        $section->addText($date, null, ['align' => 'right', 'spaceBefore' => Converter::cmToTwip(.3)]);
 
         // Создание документа
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
@@ -209,4 +181,10 @@ class ResultController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function printListCommissions()
+    {
+        return ;
+    }
+
 }

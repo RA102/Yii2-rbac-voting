@@ -83,7 +83,7 @@ class Result extends \yii\db\ActiveRecord
             ->all();
     }
 
-//    public function getNumberVotes()
+//    public function getCountVotes()
 //    {
 //        return (new Query())
 //            ->select(count())
