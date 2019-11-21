@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Site;
 use mdm\admin\models\form\Login;
 use mdm\admin\models\form\PasswordResetRequest;
 use mdm\admin\models\form\Signup;
@@ -103,6 +104,16 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
+        $model = new Site();
+        $user = $model->getUser(Yii::$app->getUser()->getId());
+
+        $message = ArrayHelper::getValue($user, 'username') . ' ' . date('d-M-Y H:m:s', time());
+
+//        echo "<pre>";
+//        var_dump($message);
+
+        Yii::info($message, 'out');
+
         Yii::$app->user->logout();
 
         return $this->goHome();

@@ -44,6 +44,12 @@ $config = [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'categories' => ['out'],
+                    'logFile' => '@runtime/logs/all_seeing_eye',
+                    'logVars' => []
+                ],
             ],
         ],
         // Уставновка формата даты

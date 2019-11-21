@@ -5,6 +5,7 @@ namespace app\modules\voting\controllers;
 use app\modules\voting\models\User;
 use Faker\Provider\DateTime;
 use phpDocumentor\Reflection\Types\Integer;
+use phpDocumentor\Reflection\Types\Void_;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Converter;
@@ -46,54 +47,6 @@ class ResultController extends Controller
     {
         $searchModel = new ResultSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        // Создание документа Word
-        $phpWord = new PhpWord();
-        $phpWord->setDefaultFontName('Times New Roman');
-        $phpWord->getDefaultFontSize(14);
-        $sectionStyle = [
-            'orientation' => 'landscape',
-        ];
-
-        $section = $phpWord->addSection($sectionStyle);
-        // Получение списка комиссии
-        $object = new Result();
-        $allNameUsersByRoleUser = ArrayHelper::getColumn($object->getUserIdsByRole('user'), 'username');
-
-        $tableStyle = array(
-        );
-
-        $cellHCentered = array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER);
-
-        // 1. Basic table
-
-        $table = $section->addTable($tableStyle);
-        $table->addRow(Converter::cmToTwip(1));
-        $table->addCell(Converter::cmToTwip(15), array('borderSize' => 1, 'borderColor' => '000000'))->addText("ФИО", array('size' => 14), array('spaceBefore' => Converter::cmToTwip(0.2), 'align' => 'center'));
-        $table->addCell(Converter::cmToTwip(5), array('borderSize' => 1, 'borderColor' => '000000'))->addText("Подпись", array('size' => 14), array('spaceBefore' => Converter::cmToTwip(.2), 'align' => 'center'));
-        $table->addCell(Converter::cmToTwip(5), ['borderSize' => 1, 'borderColor' => '000000'])->addText("Примечание", array('size' => 14), array('spaceBefore' => Converter::cmToTwip(.2), 'align' => 'center'));
-
-        for ($r = 0; $r < count($allNameUsersByRoleUser); $r++) {
-            $table->addRow(Converter::cmToTwip(1));
-            $table->addCell(null, ['borderSize' => 1, 'borderColor' => '000000'])->addText(htmlspecialchars($allNameUsersByRoleUser[$r]), array('size' => 14), ['spaceBefore' => Converter::cmToTwip(.2)]);
-            $table->addCell(null, ['borderSize' => 1, 'borderColor' => '000000']);
-            $table->addCell(null, ['borderSize' => 1, 'borderColor' => '000000']);
-        }
-
-        $date = date('d-m-Y', time());
-
-
-
-        $section->addText('_______________ ', null, ['align' => 'right', 'spaceBefore' => Converter::cmToTwip(2)]);
-        $section->addText($date, null, ['align' => 'right', 'spaceBefore' => Converter::cmToTwip(.3)]);
-
-        // Создание документа
-        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
-        // cохраняеться в /web
-        $objWriter->save('doc.docx');
-
-        // вывод на экран
-        // $objWriter->save("php://output");
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -182,9 +135,6 @@ class ResultController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public function printListCommissions()
-    {
-        return ;
-    }
+
 
 }

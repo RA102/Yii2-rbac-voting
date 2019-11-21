@@ -73,15 +73,15 @@ class Result extends \yii\db\ActiveRecord
         return $this->hasOne(StatusStudent::className(), ['id' => 'status_student_id']);
     }
 
-    public function getUserIdsByRole($role)
-    {
-        return (new Query())
-            ->select('username')
-            ->from('user')
-            ->innerJoin('auth_assignment', 'auth_assignment.user_id = user.id')
-            ->where('auth_assignment.item_name=:role',[':role' => $role])
-            ->all();
-    }
+//    public function getUserIdsByRole($role)
+//    {
+//        return (new Query())
+//            ->select('username')
+//            ->from('user')
+//            ->innerJoin('auth_assignment', 'auth_assignment.user_id = user.id')
+//            ->where('auth_assignment.item_name=:role',[':role' => $role])
+//            ->all();
+//    }
 
 //    public function getCountVotes()
 //    {

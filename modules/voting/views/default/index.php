@@ -1,12 +1,37 @@
+<?php
+use yii\bootstrap\Html;
+use \yii\helpers\Url;
+?>
+<?php
+$url = Url::toRoute('printListCommissions');
+var_dump($url);
+?>
 <div class="admin-default-index">
-    <h1><?= $this->context->action->uniqueId ?></h1>
+    <div class="container">
+        <div class="row">
+            <p>
+
+            </p>
+        </div>
+
+    </div>
+<!--    ['default/printListCommissions']-->
     <p>
-        This is the view content for action "<?= $this->context->action->id ?>".
-        The action belongs to the controller "<?= get_class($this->context) ?>"
-        in the "<?= $this->context->module->id ?>" module.
+        <?= (Yii::$app->user->can('accessManager')) ? Html::a('Распечатать', ['default/printListCommissions'], ['id' => 'printList', 'class' => 'btn btn-lg btn-success']) : '' ?>
     </p>
+
     <p>
-        You may customize this page by editing the following file:<br>
-        <code><?= __FILE__ ?></code>
+
     </p>
 </div>
+
+<?php
+$script = <<<JS
+
+let linkDom = document.getElementById('printList');
+console.log(linkDom);
+linkDom.addEventListener('click', (e) => { return false; });
+
+JS;
+$this->registerJs($script);
+?>
