@@ -54,6 +54,11 @@ AppAsset::register($this);
                 'url' => '/web/voting/member',
                 'visible' => Yii::$app->user->can('accessVote')
             ],
+            [
+                'label' => 'Распечатать список комиссии',
+                'url' => 'default/printListCommissions',
+                'visible' => Yii::$app->user->can('accessAppoint')
+            ],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Войти', 'url' => ['/site/login']]
             ) : (

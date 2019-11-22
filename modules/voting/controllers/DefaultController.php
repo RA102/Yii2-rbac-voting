@@ -21,13 +21,16 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
+        $a = 10;
+        $b = 2;
+        $c = $a +-0-+ $b;
+        var_dump($c);
         return $this->render('index');
     }
 
 
     public function actionPrintListCommissions() : bool
     {
-
         var_dump("entrance");
         // Создание документа Word
         $phpWord = new PhpWord();

@@ -89,6 +89,16 @@ class SiteController extends Controller
 
         $model = new Login();
         if ($model->load(Yii::$app->getRequest()->post()) && $model->login()) {
+
+            // Логирование когда вошел пользователь
+
+            $model = new Site();
+            $user = $model->getUser(Yii::$app->getUser()->getId());
+
+            $message = 'Вошел ' . ArrayHelper::getValue($user, 'username') . ' ' . date('d-M-Y H:m:s', time());
+
+            Yii::info($message, 'out');
+
             return $this->goBack();
         } else {
             return $this->render('login', [
@@ -107,7 +117,7 @@ class SiteController extends Controller
         $model = new Site();
         $user = $model->getUser(Yii::$app->getUser()->getId());
 
-        $message = ArrayHelper::getValue($user, 'username') . ' ' . date('d-M-Y H:m:s', time());
+        $message = 'Ушел ' . ArrayHelper::getValue($user, 'username') . ' ' . date('d-M-Y H:m:s', time());
 
 //        echo "<pre>";
 //        var_dump($message);
