@@ -6,6 +6,7 @@ use app\modules\voting\models\DefaultPage;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Converter;
+use yii\base\ErrorException;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 
@@ -21,17 +22,13 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $a = 10;
-        $b = 2;
-        $c = $a +-0-+ $b;
-        var_dump($c);
         return $this->render('index');
     }
 
 
-    public function actionPrintListCommissions() : bool
+    public function actionPrintListCommissions()
     {
-        var_dump("entrance");
+//        var_dump('Ok');
         // Создание документа Word
         $phpWord = new PhpWord();
         $phpWord->setDefaultFontName('Times New Roman');
@@ -49,13 +46,15 @@ class DefaultController extends Controller
 
         $table = $section->addTable();
         $table->addRow(Converter::cmToTwip(1));
+        $table->addCell(Converter::cmToTwip(1), array('borderSize' => 1, 'borderColor' => '000000'))->addText('#', array('size' => 14), array('spaceBefore' => Converter::cmToTwip(0.2), 'align' => 'center'));
         $table->addCell(Converter::cmToTwip(15), array('borderSize' => 1, 'borderColor' => '000000'))->addText("ФИО", array('size' => 14), array('spaceBefore' => Converter::cmToTwip(0.2), 'align' => 'center'));
         $table->addCell(Converter::cmToTwip(5), array('borderSize' => 1, 'borderColor' => '000000'))->addText("Подпись", array('size' => 14), array('spaceBefore' => Converter::cmToTwip(.2), 'align' => 'center'));
         $table->addCell(Converter::cmToTwip(5), ['borderSize' => 1, 'borderColor' => '000000'])->addText("Примечание", array('size' => 14), array('spaceBefore' => Converter::cmToTwip(.2), 'align' => 'center'));
 
         for ($r = 0; $r < count($allNameUsersByRoleUser); $r++) {
             $table->addRow(Converter::cmToTwip(1));
-            $table->addCell(null, ['borderSize' => 1, 'borderColor' => '000000'])->addText(htmlspecialchars($allNameUsersByRoleUser[$r]), array('size' => 14), ['spaceBefore' => Converter::cmToTwip(.2)]);
+            $table->addCell(null, ['borderSize' => 1, 'borderColor' => '000000'])->addText($r, array('size' => 14), ['spaceBefore' => Converter::cmToTwip(.2), 'align' => 'center']);
+$table->addCell(null, ['borderSize' => 1, 'borderColor' => '000000'])->addText(htmlspecialchars($allNameUsersByRoleUser[$r]), array('size' => 14), ['spaceBefore' => Converter::cmToTwip(.2)]);
             $table->addCell(null, ['borderSize' => 1, 'borderColor' => '000000']);
             $table->addCell(null, ['borderSize' => 1, 'borderColor' => '000000']);
         }
@@ -64,10 +63,10 @@ class DefaultController extends Controller
 
         $section->addText('_______________ ', null, ['align' => 'right', 'spaceBefore' => Converter::cmToTwip(2)]);
         $section->addText($date, null, ['align' => 'right', 'spaceBefore' => Converter::cmToTwip(.3)]);
-
         // Создание документа
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
-        // cохраняеться в /web
+
+        // Сохранение в /web
         $objWriter->save('doc.docx');
 
         // вывод на экран

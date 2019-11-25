@@ -2,6 +2,7 @@
 
 namespace app\modules\voting\controllers;
 
+use app\modules\voting\models\Member;
 use app\modules\voting\models\User;
 use Faker\Provider\DateTime;
 use phpDocumentor\Reflection\Types\Integer;
@@ -48,9 +49,16 @@ class ResultController extends Controller
         $searchModel = new ResultSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+
+
+//        $getTimeWhenButtonPressed = ()
+
+        $date = date('H:i:s d.M.y');
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'date' => $date,
         ]);
     }
 

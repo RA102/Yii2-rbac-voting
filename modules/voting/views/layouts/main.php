@@ -56,7 +56,8 @@ AppAsset::register($this);
             ],
             [
                 'label' => 'Распечатать список комиссии',
-                'url' => 'default/printListCommissions',
+                'url' => 'print-list-commissions',
+                'linkOptions' => ['id' => 'printList'],
                 'visible' => Yii::$app->user->can('accessAppoint')
             ],
             Yii::$app->user->isGuest ? (
@@ -93,7 +94,27 @@ AppAsset::register($this);
     </div>
 </footer>
 
+<?php
+$script = <<<JS
+let linkDom = document.getElementById('printList');
+linkDom.addEventListener('click', function(e) { 
+    e.preventDefault();
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', 'print-list-commissions', false);
+    xhr.send();
+    if (xhr.status != 200) {
+        alert ('Закройте файл списка');
+    } else {
+        alert('Файл сохранен в /web');
+    }
+});
+
+JS;
+$this->registerJs($script);
+?>
+
 <?php $this->endBody() ?>
 </body>
 </html>
 <?php $this->endPage() ?>
+

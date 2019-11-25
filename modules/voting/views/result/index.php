@@ -36,13 +36,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $data->member->name;
                 },
             ],
-//            'users.username' => [
-//                'label' => 'комиссия',
-//                'filter' => Html::activeDropDownList($searchModel, 'user_id', ArrayHelper::map(Result::find()->all(), 'user_id', 'users.username'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
-//                'value' => function($data){
-//                    return $data->users->username;
-//                },
-//            ],
+            '' => [
+                'label' => 'Время',
+                'filter' => Html::activeDropDownList($searchModel, 'user_id', ArrayHelper::map(Result::find()->all(), 'user_id', 'users.username'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
+                'value' => function($data) {
+                    return date('H:i:s d.m.y');
+                },
+            ],
             'type.name' => [
                 'label' => 'Как проголосовал',
                 'filter' => Html::activeDropDownList($searchModel, 'type_id', ArrayHelper::map(Result::find()->all(), 'type_id', 'type.name'), ['prompt' => '', 'class' => 'form-control form-control-sm']),

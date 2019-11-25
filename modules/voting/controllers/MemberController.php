@@ -76,7 +76,8 @@ class MemberController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
 
-        // Кнопка голосования "ЗА" "ПРОТИВ" "ВОЗДЕРЖАЛСЯ"
+        //  Кнопка голосования "ЗА" "ПРОТИВ"
+        //  и "Недествительный" если не проголосовал
 
         if(Yii::$app->request->get('type') ) {
 

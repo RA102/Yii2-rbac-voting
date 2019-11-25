@@ -89,13 +89,12 @@ class SiteController extends Controller
 
         $model = new Login();
         if ($model->load(Yii::$app->getRequest()->post()) && $model->login()) {
-
-            // Логирование когда вошел пользователь
-
             $model = new Site();
             $user = $model->getUser(Yii::$app->getUser()->getId());
 
-            $message = 'Вошел ' . ArrayHelper::getValue($user, 'username') . ' ' . date('d-M-Y H:m:s', time());
+            // Логирование когда вошел пользователь
+            date_default_timezone_set('Asia/Almaty');
+            $message = 'Авторизовался ' . ArrayHelper::getValue($user, 'username');
 
             Yii::info($message, 'out');
 
@@ -117,15 +116,12 @@ class SiteController extends Controller
         $model = new Site();
         $user = $model->getUser(Yii::$app->getUser()->getId());
 
-        $message = 'Ушел ' . ArrayHelper::getValue($user, 'username') . ' ' . date('d-M-Y H:m:s', time());
-
-//        echo "<pre>";
-//        var_dump($message);
-
+        //    Логирование кто вышел
+        date_default_timezone_set('Asia/Almaty');
+        $message = 'Вышел ' . ArrayHelper::getValue($user, 'username');
         Yii::info($message, 'out');
 
         Yii::$app->user->logout();
-
         return $this->goHome();
     }
 

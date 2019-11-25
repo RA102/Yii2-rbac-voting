@@ -3,34 +3,38 @@ use yii\bootstrap\Html;
 use \yii\helpers\Url;
 ?>
 <?php
-$url = Url::toRoute('printListCommissions');
-var_dump($url);
+//$url = Url::toRoute('printListCommissions');
+//var_dump($url);$url = Url::toRoute('printListCommissions');
+//var_dump($url);
 ?>
 <div class="admin-default-index">
     <div class="container">
         <div class="row">
-            <p>
+            <h3 class="text-center">
+                После авторизации перейтите по ссылке в меню
+                <div class="flex-center-children vh-1 padding-1">
+                    <div id="sample-card" class="card" >
+                        <div class="close-button">
+                            X
+                        </div>
+                        <div id="sample-button" class="button" >
+                            More info
+                        </div>
+                        <div id="sample-paragraph" class="muddle" > Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia voluptatum id at laborum inventore ex non, magnam fugiat, consequatur fugit, vero quisquam qui fuga soluta ullam iure voluptatibus. Ab, nihil.
+                        </div>
+                    </div>
+                </div>
 
-            </p>
+            </h3>
         </div>
 
     </div>
-<!--    ['default/printListCommissions']-->
-    <p>
-        <?= (Yii::$app->user->can('accessManager')) ? Html::a('Распечатать', ['default/printListCommissions'], ['id' => 'printList', 'class' => 'btn btn-lg btn-success']) : '' ?>
-    </p>
-
-    <p>
-
-    </p>
 </div>
 
 <?php
 $script = <<<JS
 
-let linkDom = document.getElementById('printList');
-console.log(linkDom);
-linkDom.addEventListener('click', (e) => { return false; });
+
 
 JS;
 $this->registerJs($script);
