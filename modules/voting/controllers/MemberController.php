@@ -5,6 +5,7 @@ namespace app\modules\voting\controllers;
 use app\modules\voting\models\Result;
 use app\modules\voting\models\User;
 use app\modules\voting\models\Vote;
+use Cassandra\Date;
 use http\Header;
 use Yii;
 use app\modules\voting\models\Member;
@@ -77,7 +78,7 @@ class MemberController extends Controller
 
 
         //  Кнопка голосования "ЗА" "ПРОТИВ"
-        //  и "Недествительный" если не проголосовал
+        //  и "Недействительный" если не проголосовал
 
         if(Yii::$app->request->get('type') ) {
 
@@ -95,6 +96,7 @@ class MemberController extends Controller
                 $model->result_id - 1;
             $model->status_student_id = ($model->result_id >= 0) ? 4 : 3;
             $model->active = 1;
+            $model->time_voting = new Date();
 
             $model->save(false);
             $member = Member::findOne(Yii::$app->request->get('memberid'));
