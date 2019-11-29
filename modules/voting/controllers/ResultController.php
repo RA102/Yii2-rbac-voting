@@ -15,6 +15,7 @@ use PhpOffice\PhpWord\SimpleType\JcTable;
 use Yii;
 use app\modules\voting\models\Result;
 use app\modules\voting\models\ResultSearch;
+use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -31,12 +32,7 @@ class ResultController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
+            'class' => TimestampBehavior::className(),
         ];
     }
 
@@ -56,16 +52,15 @@ class ResultController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
 
-        // Текущая дата и время
-        $date = date('d-m-Y');
-            //date('H:i:s d.M.y');
-        var_dump($date);
+//        // Текущая дата и время
+//        $date = date('d-m-Y');
+//            //date('H:i:s d.M.y');
+////        var_dump($date);
 
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'date' => $date,
         ]);
     }
 

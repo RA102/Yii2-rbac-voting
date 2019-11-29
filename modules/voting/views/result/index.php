@@ -39,9 +39,10 @@ $this->params['breadcrumbs'][] = $this->title;
             '' => [
                 'label' => 'Время',
                 'filter' => Html::activeDropDownList($searchModel, 'user_id', ArrayHelper::map(Result::find()->all(), 'user_id', 'users.username'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
-                'value' => function($data) {
-                    return date('H:i:s d.m.y');
-                },
+                'value' => function($data)
+                {
+                    return date('d-m-Y H:i:s', $data->updated_at);
+                }
             ],
             'type.name' => [
                 'label' => 'Как проголосовал',

@@ -3,6 +3,7 @@
 namespace app\modules\voting\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "result".
@@ -26,6 +27,15 @@ class Result extends \yii\db\ActiveRecord
         return 'result';
     }
 
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+            ]
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -34,7 +44,7 @@ class Result extends \yii\db\ActiveRecord
         return [
             [['user_id', 'member_id'], 'required'],
             [['user_id', 'member_id', 'result_id', 'type_id', 'status_student_id', 'active'], 'integer'],
-            [['time_voting'], 'date'],
+            [['time_voted'], 'date', 'message' => 'Дата'],
         ];
     }
 
@@ -51,7 +61,29 @@ class Result extends \yii\db\ActiveRecord
             'type_id' => 'Type ID',
             'status_student_id' => 'Status Student ID',
             'active' => 'Active',
-            'time_voting' => 'Time Voting',
+            'time_voted' => 'Time Voting',
         ];
     }
+
+    public function getMember()
+    {
+        return $this->hasOne(Member::className(), ['id' => 'member_id']);
+    }
+
+    public function getUsers()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+
+    public function getType()
+    {
+        return $this->hasOne(Type::className(), ['id' => 'type_id']);
+    }
+
+    public function getStatusStudent()
+    {
+        return $this->hasOne(StatusStudent::className(), ['id' => 'status_student_id']);
+    }
+
 }

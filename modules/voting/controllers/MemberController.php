@@ -3,20 +3,13 @@
 namespace app\modules\voting\controllers;
 
 use app\modules\voting\models\Result;
-use app\modules\voting\models\User;
 use app\modules\voting\models\Vote;
-use Cassandra\Date;
-use http\Header;
 use Yii;
 use app\modules\voting\models\Member;
 use app\modules\voting\models\MemberSearch;
-use yii\debug\models\timeline\Search;
-use yii\helpers\ArrayHelper;
-use yii\rbac\BaseManager;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use mdm\admin\models\Assignment;
+
 
 
 /**
@@ -27,32 +20,25 @@ class MemberController extends Controller
     /**
      * {@inheritdoc}
      */
-//    public function behaviors()
-//    {
-//        return [
-//            'verbs' => [
-//                'class' => VerbFilter::className(),
-//                'actions' => [
-//                    'delete' => ['POST'],
+    public function behaviors()
+    {
+        return [
+//            'timestamp' => [
+//                'class' =>TimestampBehavior::className(),
+//                'attributes' => [
+//
 //                ],
-//            ],
-//        ];
-//    }
+//            ]
+        ];
+
+    }
 
     /**
      * @inheritdoc
      */
     public function beforeAction($action)
     {
-        if (parent::beforeAction($action)) {
-//            if (Yii::$app->has('mailer') && ($mailer = Yii::$app->getMailer()) instanceof BaseMailer) {
-//                /* @var $mailer BaseMailer */
-//                $this->_oldMailPath = $mailer->getViewPath();
-//                $mailer->setViewPath('@mdm/admin/mail');
-//            }
-            return true;
-        }
-        return false;
+        return true;
     }
 
     /**
@@ -73,9 +59,12 @@ class MemberController extends Controller
         $userIp = Yii::$app->request->getUserIP();
         #var_dump(Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId()));
 
+        $tz = new \DateTimeZone('Asia/Almaty');
+        $dt = new \DateTime('now', $tz);
+        var_dump($dt);
+
         $searchModel = new MemberSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
 
         //  Кнопка голосования "ЗА" "ПРОТИВ"
         //  и "Недействительный" если не проголосовал
@@ -96,13 +85,16 @@ class MemberController extends Controller
                 $model->result_id - 1;
             $model->status_student_id = ($model->result_id >= 0) ? 4 : 3;
             $model->active = 1;
-            $model->time_voting = new Date();
+            date_default_timezone_set('Asia/Almaty');
+            $model->time_voted = date('Y-m-d H:i:s', time());
 
             $model->save(false);
             $member = Member::findOne(Yii::$app->request->get('memberid'));
             $member->status_student_id = ($model->status_student_id) ? $model->status_student_id : 1;
 
             $member->save(false);
+
+            $this->redirect('index');
 
         }
 
