@@ -27,8 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            //'id',
             'member.name' => [
                 'label' => 'Участники',
                 'filter' => Html::activeDropDownList($searchModel, 'member_id', ArrayHelper::map(Result::find()->all(), 'member_id', 'member.name'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
@@ -38,16 +36,16 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             '' => [
                 'label' => 'Время',
-                'filter' => Html::activeDropDownList($searchModel, 'user_id', ArrayHelper::map(Result::find()->all(), 'user_id', 'users.username'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
+                'format' => 'html',
                 'value' => function($data)
                 {
-                    return date('d-m-Y H:i:s', $data->updated_at);
+                    return $data->time_voted; #Yii::$app->formatter->asDatetime($data->time_voted, 'php: d.m.Y H:i'); #date('d-m-Y H:m:s', $data->time_voted);
                 }
             ],
             'type.name' => [
                 'label' => 'Как проголосовал',
                 'filter' => Html::activeDropDownList($searchModel, 'type_id', ArrayHelper::map(Result::find()->all(), 'type_id', 'type.name'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
-                'value' => function($data){
+                'value' => function($data) {
                     return ($data->type == 0) ? ' ' : $data->type->name;
                 },
             ],

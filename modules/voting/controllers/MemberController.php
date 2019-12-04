@@ -7,6 +7,9 @@ use app\modules\voting\models\Vote;
 use Yii;
 use app\modules\voting\models\Member;
 use app\modules\voting\models\MemberSearch;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\db\Expression;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -20,18 +23,17 @@ class MemberController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
-    {
-        return [
-//            'timestamp' => [
-//                'class' =>TimestampBehavior::className(),
-//                'attributes' => [
+//    public function behaviors()
+//    {
+//        return [
+//            'class' => TimestampBehavior::className(),
+//            'attributes' => [
+//                ActiveRecord::EVENT_AFTER_UPDATE => ['updated_at'],
+//            ],
+//            'value' => new Expression('NOW()'),
+//        ];
 //
-//                ],
-//            ]
-        ];
-
-    }
+//    }
 
     /**
      * @inheritdoc
@@ -58,10 +60,6 @@ class MemberController extends Controller
     {
         $userIp = Yii::$app->request->getUserIP();
         #var_dump(Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId()));
-
-        $tz = new \DateTimeZone('Asia/Almaty');
-        $dt = new \DateTime('now', $tz);
-        var_dump($dt);
 
         $searchModel = new MemberSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -128,9 +126,6 @@ class MemberController extends Controller
                     $item->save(false);
                 }
             }
-
-
-
 
             // Получить всех Member у кого Active = 2
             $model = Member::find()

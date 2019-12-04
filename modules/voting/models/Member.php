@@ -67,6 +67,13 @@ class Member extends \yii\db\ActiveRecord
         ];
     }
 
+//    public function behaviors()
+//    {
+//        return [
+////          TimestampBehavior::className(),
+//        ];
+//    }
+
 
     public function afterFind()
     {
@@ -131,6 +138,5 @@ class Member extends \yii\db\ActiveRecord
     {
         return Result::find()->where(['member_id' => $memberId])->all();
     }
-
 
 }

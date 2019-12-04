@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'id' => 'container',
-            'options' => ['style' => 'max-width: max-content;', 'text-align: center;'],
+            'options' => ['style' => 'max-width: 100%;', 'text-align: center;'],
             'tableOptions' => ['class' => 'table table-bordered'],
             'rowOptions' => function($model) {
                 return ($model->active == 2) ? ['class' => 'mark-row'] : false;
