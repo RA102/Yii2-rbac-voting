@@ -110,10 +110,12 @@ class MemberController extends Controller
 
             // получить id пользователя со Статусом 'Active' = 2 до изменения
             // ? может не пригодится
-
-            $memberIsActive = Result::find()
-                ->where(['active' => 2])
-                ->all();
+            $task = new Member();
+            $memberIsActive = $task->getMemberIdByActive();
+            //var_dump($memberIsActive);
+//            $memberIsActive =  Result::find()
+//                ->where(['active' => 2])
+//                ->all();
             // echo "<pre>"; print_r($memberIsActive);die;
 
 
