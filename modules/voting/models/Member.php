@@ -139,4 +139,6 @@ class Member extends \yii\db\ActiveRecord
         return Result::find()->where(['member_id' => $memberId])->all();
     }
 
+    public function
+
 }

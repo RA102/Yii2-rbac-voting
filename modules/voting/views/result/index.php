@@ -20,8 +20,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Result', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -29,22 +27,22 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             'member.name' => [
                 'label' => 'Участники',
-                'filter' => Html::activeDropDownList($searchModel, 'member_id', ArrayHelper::map(Result::find()->all(), 'member_id', 'member.name'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
+                'filter' => Html::activeDropDownList($searchModel, 'member_id', ArrayHelper::map(Result::find()->all(), 'member_id', 'member.name'), ['prompt' => 'Все', 'class' => 'form-control form-control-sm']),
                 'value' => function($data){
                     return $data->member->name;
                 },
             ],
             '' => [
                 'label' => 'Время',
-                'format' => 'html',
+                'format' => 'raw',
                 'value' => function($data)
                 {
-                    return $data->time_voted; #Yii::$app->formatter->asDatetime($data->time_voted, 'php: d.m.Y H:i'); #date('d-m-Y H:m:s', $data->time_voted);
+                    return Yii::$app->formatter->asDatetime($data->time_voted, 'php:H:i d-m-Y'); #date('d-m-Y H:m:s', $data->time_voted);
                 }
             ],
             'type.name' => [
                 'label' => 'Как проголосовал',
-                'filter' => Html::activeDropDownList($searchModel, 'type_id', ArrayHelper::map(Result::find()->all(), 'type_id', 'type.name'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
+                'filter' => Html::activeDropDownList($searchModel, 'type_id', ArrayHelper::map(Result::find()->all(), 'type_id', 'type.name'), ['prompt' => 'Все', 'class' => 'form-control form-control-sm']),
                 'value' => function($data) {
                     return ($data->type == 0) ? ' ' : $data->type->name;
                 },

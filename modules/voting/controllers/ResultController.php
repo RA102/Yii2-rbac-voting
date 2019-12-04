@@ -51,12 +51,6 @@ class ResultController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
 
-//        // Текущая дата и время
-//        $date = date('d-m-Y');
-//            //date('H:i:s d.M.y');
-////        var_dump($date);
-
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

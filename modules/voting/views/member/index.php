@@ -23,14 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <span>
         <?= Html::a('Create Member', ['create'], ['class' => 'btn btn-success'] ) ?>
     </span>
-    <!--
-    <span>
-        <?/*= Html::a('All', ['class' => 'btn btn-success']) */?>
-    </span>
-    -->
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-<?php //echo "<pre>"; print_r();die; ?>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
@@ -75,7 +67,16 @@ $this->params['breadcrumbs'][] = $this->title;
                         return $data->specialty;
                     }
                 ],
-                 [
+                'theme' => [
+                    'label' => 'Тема',
+                    'contentOptions' => ['style' => 'vertical-align: middle'],
+                    'value' =>
+                        function($data)
+                    {
+                        return $data->theme;
+                    },
+                ],
+                [
                      'label' => 'Результат',
                      'format' => 'raw',
                      'visible' => Yii::$app->user->can('accessVote'),
