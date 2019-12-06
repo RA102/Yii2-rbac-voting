@@ -21,7 +21,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <span>
-        <?= Html::a('Create Member', ['create'], ['class' => 'btn btn-success'] ) ?>
+        <?php if (Yii::$app->user->can('accessAppoint')) {
+            echo Html::a('Create Member', ['create'], ['class' => 'btn btn-success']);
+        }
+        ?>
     </span>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,

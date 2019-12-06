@@ -194,22 +194,23 @@ body {
 
 /* Стилизация формы автроризации*/
 
-/*.wrapper {*/
+/*
+.wrapper {*/
 /*    position: relative;*/
 /*    height: 100vh;*/
-/*}*/
+/*}
+*/
 
 .login-form
 {
-    width: max-content;
+    width: 450px;
     background: #f1f1f1;
-    height: 580px;
     padding: 40px 80px 40px;
     border-radius: 10px;
-    /*position: absolute;*/
-    /*top: 50%;*/
-    /*left: 50%;*/
-    /*transform: translate(-50%, -50%);*/
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .login-form h1
@@ -237,7 +238,7 @@ body {
     height: 40px;
 }
 
-.txtb label::before
+.txtb span::before
 {
     content: attr(data-placeholder);
     position: absolute;
@@ -245,11 +246,11 @@ body {
     left: 5px;
     color: #adadad;
     transform: translateY(-50%);
-    /*z-index: -1;*/
+    z-index: -1;
     transition: .5s;
 }
 
-.txtb label::after
+.txtb span::after
 {
     content: '';
     position: absolute;
@@ -261,12 +262,12 @@ body {
     transition: .5s;
 }
 
-.focus + label::before
+.focus + span::before
 {
     top: -5px;
 }
 
-.focus + label::after
+.focus + span::after
 {
     width: 100%;
 }

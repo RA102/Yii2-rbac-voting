@@ -75,6 +75,11 @@ class MemberController extends Controller
                     'user_id' => $userId,
                     'member_id' => $memberId,
                 ]);
+            if ($model === null) {
+                $model = new Result();
+                $model->user_id = $userId;
+                $model->member_id = $memberId;
+            }
 
 
             $model->type_id = (int)Yii::$app->request->get('type');
