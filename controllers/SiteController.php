@@ -12,7 +12,6 @@ use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
 use app\models\ContactForm;
 
 class SiteController extends Controller
@@ -66,11 +65,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-//        if (Yii::$app->authManager->getRole('user') || Yii::$app->authManager->getRole('manager') ) {
-//            return $this->redirect('/web/voting/member');
-//        } elseif (Yii::$app->authManager->getRole('Counting commission')) {
-//            return $this->redirect('/web/voting/result');
-//        }
 
         return $this->render('index');
     }

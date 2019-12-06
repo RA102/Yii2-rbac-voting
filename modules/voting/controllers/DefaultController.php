@@ -2,13 +2,12 @@
 
 namespace app\modules\voting\controllers;
 
-use app\modules\voting\models\DefaultPage;
-use PhpOffice\PhpWord\IOFactory;
-use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Shared\Converter;
-use yii\base\ErrorException;
-use yii\helpers\ArrayHelper;
-use yii\web\Controller;
+use app\models\Site,
+    mdm\admin\models\form\Login,
+    yii\helpers\ArrayHelper,
+    yii\web\Controller,
+    mdm\admin\models\form\PasswordResetRequest;
+    mdm\admin\models\form\Signup;
 
 /**
  * Default controller for the `admin` module
@@ -24,4 +23,5 @@ class DefaultController extends Controller
     {
         return $this->render('index');
     }
+
 }
