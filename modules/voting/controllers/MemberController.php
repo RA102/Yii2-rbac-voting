@@ -115,24 +115,39 @@ class MemberController extends Controller
 
             // получить id пользователя со Статусом 'Active' = 2 до изменения
             // ? может не пригодится
-            $task = new Member();
-            $memberIsActive = $task->getMemberIdByActive();
-            //var_dump($memberIsActive);
-//            $memberIsActive =  Result::find()
-//                ->where(['active' => 2])
-//                ->all();
-            // echo "<pre>"; print_r($memberIsActive);die;
+//            $task = new Member();
+//            $memberIsActive = $task->getMemberIdByActive();
+            $memberIsActive = Member::findOne(['active' => 2]);
+
+            //$result = new Result();
+            $rowResult = Result::findOne($memberIsActive['id']);
 
 
-            if (!empty($memberIsActive)) {
-                foreach ($memberIsActive as $item) {
-                    if($item->type_id == 0) {
-                        $item->type_id = 2;
-                    }
-                    $item->active = 1;
-                    $item->save(false);
-                }
+//echo "<pre>";
+//            var_dump($rowResult);die;
+
+
+//            if (!empty($memberIsActive)) {
+//                foreach ($memberIsActive as $item) {
+//                    if($item->type_id == 0) {
+//                        $item->type_id = 2;
+//                    }
+//                    $item->active = 1;
+//                    $item->save(false);
+//                }
+//            }
+            if ( !empty($rowResult) ) {
+
+                if ( $rowResult->type_id == 0 )
+                    $rowResult->type_id = 2;
+
+                $memberIsActive->active = 1;
+                $memberIsActive->save(false);
             }
+
+
+
+
 
             // Получить всех Member у кого Active = 2
             $model = Member::find()

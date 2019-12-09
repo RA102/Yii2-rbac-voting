@@ -297,3 +297,8 @@ body {
     text-align: center;
     font-size: 13px;
 }
+
+.table-style {
+    border-collapse: separate;
+    border-spacing: 3px;
+}

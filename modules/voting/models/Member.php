@@ -131,7 +131,12 @@ class Member extends \yii\db\ActiveRecord
 
     public function getMemberIdByActive()
     {
-        return Member::find()->where(['active' => 2])->all();
+        return Member::find()->where(['active' => 2])->one();
+//        return (new Query())
+//            ->select('id')
+//            ->from('member')
+//            ->where(['active' => 2])
+//            ->one();
     }
 
     public function getMember($memberId)

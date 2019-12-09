@@ -28,43 +28,47 @@ $this->params['breadcrumbs'][] = $this->title;
     </span>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
+//            'filterModel' => $searchModel,
             'id' => 'container',
-            'options' => ['style' => 'max-width: 100%;', 'text-align: center;'],
-            'tableOptions' => ['class' => 'table table-bordered'],
+            'options' => ['style' => 'max-width: 100%; text-align: center;'],
+            'tableOptions' => ['class' => 'table table-bordered table-style'],
             'rowOptions' => function($model) {
-                return ($model->active == 2) ? ['class' => 'mark-row'] : false;
+                return ($model->active == 2) ? ['class' => 'danger'] : ['class' => 'info'];
             },
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
-                #'id',
+//                'id',
                 'name' => [
                     'label' => 'ФИО',
+                    'headerOptions' => ['style' => 'text-align: center;'],
                     'filter'=> [
                         Html::activeDropDownList($searchModel, 'name', ArrayHelper::map(Member::find()->all(), 'name', 'name'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
 
                     ],
-                    'contentOptions' => ['style' => 'vertical-align: middle'],
+                    'contentOptions' => ['style' => 'vertical-align: middle;'],
                     'value' => function($data) {
                         return $data->name;
                     },
                 ],
                 'faculty' => [
                     'label' => 'Факультет',
+                    'headerOptions' => ['style' => 'text-align: center;'],
                     'contentOptions' => ['style' => 'vertical-align: middle'],
                     'value' => function($data) {
                         return $data->faculty;
                     }
                 ],
                 'department' => [
-                        'label' => 'Департамент',
-                        'contentOptions' => ['style' => 'vertical-align: middle'],
-                        'value' => function($data) {
+                    'label' => 'Департамент',
+                    'headerOptions' => ['style' => 'text-align: center;'],
+                    'contentOptions' => ['style' => 'vertical-align: middle'],
+                    'value' => function($data) {
                             return $data->department;
-                        }
+                    }
                 ],
                 'specialty' => [
                     'label' => 'Специальность',
+                    'headerOptions' => ['style' => 'text-align: center;'],
                     'contentOptions' => ['style' => 'vertical-align: middle'],
                     'value' => function($data) {
                         return $data->specialty;
@@ -72,6 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'theme' => [
                     'label' => 'Тема',
+                    'headerOptions' => ['style' => 'text-align: center;'],
                     'contentOptions' => ['style' => 'vertical-align: middle'],
                     'value' =>
                         function($data)
@@ -80,21 +85,23 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                 ],
                 [
-                     'label' => 'Результат',
-                     'format' => 'raw',
-                     'visible' => Yii::$app->user->can('accessVote'),
-                     'contentOptions' => ['class' => 'd-table-cell', 'style' => 'vertical-align: middle;'],
-                     'value' => function($data) {
-                        return ($data->result == 0) ? ' ' : $data->result->type->name;
-                     },
-
-                ],
-               'Button' => [
-                    'label' => 'Кнопки',
+                    'label' => 'Результат',
+                    'headerOptions' => ['style' => 'text-align: center;'],
                     'format' => 'raw',
                     'visible' => Yii::$app->user->can('accessVote'),
                     'contentOptions' => ['class' => 'd-table-cell', 'style' => 'vertical-align: middle;'],
                     'value' => function($data) {
+                        return ($data->result == 0) ? ' ' : $data->result->type->name;
+                    },
+
+                ],
+               'Button' => [
+                   'label' => 'Кнопки',
+                   'headerOptions' => ['style' => 'text-align: center;'],
+                   'format' => 'raw',
+                   'visible' => Yii::$app->user->can('accessVote'),
+                   'contentOptions' => ['class' => 'd-table-cell', 'style' => 'vertical-align: middle;'],
+                   'value' => function($data) {
                          if ($data->active == 2) {
                              return Html::a('За', ['index?type=3&memberid='.$data->id], ['class' => 'btn btn-success btn-bg  mr-1'] ) .
                             Html::a('Против', ['index?type=1&memberid='.$data->id], ['class' => 'btn btn-danger btn-bg  mr-1'] );
@@ -106,6 +113,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'data' => [
                     'label' => 'Дата',
+                    'headerOptions' => ['style' => 'text-align: center;'],
                     'format' => ['date', 'php:d.m.Y'],
                     'visible' => Yii::$app->user->can('accessAppoint'),
                     'filter' => Html::activeDropDownList($searchModel, 'data', ArrayHelper::map(Member::find()->all(), 'data', 'data'), ['prompt' => 'Все', 'class' => 'form-control form-control-sm']),
@@ -115,6 +123,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'Student' => [
                     'label' => 'Назначить',
+                    'headerOptions' => ['style' => 'text-align: center;'],
                     'format' => 'raw',
                     'visible' => Yii::$app->user->can('accessAppoint'),
                     'contentOptions' => ['class' => 'd-table-cell'],
@@ -130,6 +139,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 '' => [
                     'label' => 'Статус',
+                    'headerOptions' => ['style' => 'text-align: center;'],
                     'visible' => Yii::$app->user->can('accessAppoint'),
                     'value' => function($data) {
                         if( !($data->active) ) {
@@ -142,7 +152,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 ],
 
-                #['class' => 'yii\grid\ActionColumn', 'headerOptions' => ['width' => '40'], 'template' => '{view}{link}'],
+//                ['class' => 'yii\grid\ActionColumn', 'headerOptions' => ['width' => '40'], 'template' => '{view}{link}'],
             ],
         ]); ?>
 </div>
