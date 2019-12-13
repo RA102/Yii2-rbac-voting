@@ -10,6 +10,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -41,7 +42,7 @@ AppAsset::register($this);
         'items' => [
             [
                 'label' => 'Счетная комиссия',
-                'url' => '/web/voting/result',
+                'url' => '/web/voting/result?', //Url::toRoute(['web/voting/result', 'ResultSearch' => ['member_id' => \app\modules\voting\models\Member::getMemberIdByActive()]]),
                 'visible' => Yii::$app->user->can('accessResult'),
             ],
             [
@@ -77,7 +78,7 @@ AppAsset::register($this);
     NavBar::end();
     ?>
 
-    <div class="container">
+    <div class="container-fluid">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>

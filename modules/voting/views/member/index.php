@@ -28,10 +28,10 @@ $this->params['breadcrumbs'][] = $this->title;
     </span>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
-//            'filterModel' => $searchModel,
+            'filterModel' => $searchModel,
             'id' => 'container',
             'options' => ['style' => 'max-width: 100%; text-align: center;'],
-            'tableOptions' => ['class' => 'table table-bordered table-style'],
+            'tableOptions' => ['class' => 'table table_blur'],
             'rowOptions' => function($model) {
                 return ($model->active == 2) ? ['class' => 'danger'] : ['class' => 'info'];
             },
@@ -53,6 +53,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'faculty' => [
                     'label' => 'Факультет',
                     'headerOptions' => ['style' => 'text-align: center;'],
+                    'filter'=> [
+                        Html::activeDropDownList($searchModel, 'faculty', ArrayHelper::map(Member::find()->all(), 'faculty', 'faculty'), ['prompt' => '', 'class' => 'form-control form-control-sm']),
+
+                    ],
                     'contentOptions' => ['style' => 'vertical-align: middle'],
                     'value' => function($data) {
                         return $data->faculty;
@@ -110,11 +114,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             Html::a('Против', ['index?type=1&memberid=' . $data->id], ['class' => 'btn btn-danger btn-bg  mr-1 disabled']);
                         }
                     },
-                ],
+               ],
                 'data' => [
                     'label' => 'Дата',
                     'headerOptions' => ['style' => 'text-align: center;'],
                     'format' => ['date', 'php:d.m.Y'],
+                    'contentOptions' => ['style' => 'vertical-align: middle;'],
                     'visible' => Yii::$app->user->can('accessAppoint'),
                     'filter' => Html::activeDropDownList($searchModel, 'data', ArrayHelper::map(Member::find()->all(), 'data', 'data'), ['prompt' => 'Все', 'class' => 'form-control form-control-sm']),
                     'value' => function($data){
@@ -126,7 +131,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'headerOptions' => ['style' => 'text-align: center;'],
                     'format' => 'raw',
                     'visible' => Yii::$app->user->can('accessAppoint'),
-                    'contentOptions' => ['class' => 'd-table-cell'],
+                    'contentOptions' => ['class' => 'd-table-cell', 'style' => 'vertical-align: middle;'],
                     'value' => function($data) {
                         if ($data->active == 1 || $data->active == 2)
                         {
@@ -141,6 +146,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'label' => 'Статус',
                     'headerOptions' => ['style' => 'text-align: center;'],
                     'visible' => Yii::$app->user->can('accessAppoint'),
+                    'contentOptions' => ['style' => 'vertical-align: middle;'],
                     'value' => function($data) {
                         if( !($data->active) ) {
                             return 'Не защищался';

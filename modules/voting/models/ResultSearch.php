@@ -7,7 +7,7 @@ use yii\data\ActiveDataProvider;
 use app\modules\voting\models\Result;
 
 /**
- * ResultSearch represents the model behind the search form of `app\models\Result`.
+ * ResultSearch represents the model behind the search form of `app\modules\voting\models\Result`.
  */
 class ResultSearch extends Result
 {
@@ -39,6 +39,15 @@ class ResultSearch extends Result
      */
     public function search($params)
     {
+        if (empty($params)) {
+            $obj = Member::getMemberIdByActive();
+            $params = [
+                'ResultSearch' => [
+                    'member_id' => $obj->id,
+                    'type_id' => '',
+                ],
+            ];
+        }
         $query = Result::find();
 
         // add conditions that should always apply here
@@ -46,6 +55,7 @@ class ResultSearch extends Result
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
 
         $this->load($params);
 

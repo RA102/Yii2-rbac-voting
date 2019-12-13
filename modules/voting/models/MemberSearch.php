@@ -62,8 +62,9 @@ class MemberSearch extends Member
         $query->andFilterWhere([
             'id' => $this->id,
             'active' => $this->active,
+            'faculty' => $this->faculty,
             'status_student_id' => $this->status_student_id,
-            'data' => $this->data,  //\Yii::$app->formatter->asDate($this->data, 'php: j.n.Y'),
+            'data' =>  $this->data,  // \Yii::$app->formatter->asDate($this->data, 'php: j.n.Y'),
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

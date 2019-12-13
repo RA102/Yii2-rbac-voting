@@ -129,7 +129,7 @@ class Member extends \yii\db\ActiveRecord
             ->all();
     }
 
-    public function getMemberIdByActive()
+    public static function getMemberIdByActive()
     {
         return Member::find()->where(['active' => 2])->one();
 //        return (new Query())

@@ -3,8 +3,6 @@
 namespace app\modules\voting\controllers;
 
 use app\modules\voting\models\Member;
-use app\modules\voting\models\User;
-use Faker\Provider\DateTime;
 use phpDocumentor\Reflection\Types\Integer;
 use phpDocumentor\Reflection\Types\Void_;
 use PhpOffice\PhpWord\IOFactory;
@@ -15,11 +13,8 @@ use PhpOffice\PhpWord\SimpleType\JcTable;
 use Yii;
 use app\modules\voting\models\Result;
 use app\modules\voting\models\ResultSearch;
-use yii\behaviors\TimestampBehavior;
-use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * ResultController implements the CRUD actions for Result model.
@@ -50,10 +45,22 @@ class ResultController extends Controller
         $searchModel = new ResultSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $requestSearch = (object)Yii::$app->request->queryParams;
+        $memberIdFromQuery = $requestSearch->ResultSearch['member_id'];
+
+        $countMemberCommission = Result::getQuantityCommission($memberIdFromQuery);
+        $countVotesFor = Result::getNumberVotesFor($memberIdFromQuery);
+        $countVotesAgainst = Result::getNumberVotesAgainst($memberIdFromQuery);
+        $countVotesInvalid = Result::getNumberVotesInvalid($memberIdFromQuery);
+
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'countMemberCommission' => $countMemberCommission,
+            'countVotesFor' => $countVotesFor,
+            'countVotesAgainst' => $countVotesAgainst,
+            'countVotesInvalid' => $countVotesInvalid,
         ]);
     }
 
@@ -77,15 +84,17 @@ class ResultController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Result();
+//        $model = new Result();
+//
+//        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+//            return $this->redirect(['view', 'id' => $model->id]);
+//        }
+//
+//        return $this->render('create', [
+//            'model' => $model,
+//        ]);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        return $this->render('index');
     }
 
     /**
@@ -136,6 +145,60 @@ class ResultController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionCreateProtocol()
+    {
+        $student = Member::getMemberIdByActive();
+        $countMemberCommission = Result::getQuantityCommission($student->id);
+        $countVotesFor = Result::getNumberVotesFor($student->id);
+        $countVotesAgainst = Result::getNumberVotesAgainst($student->id);
+        $countVotesInvalid = Result::getNumberVotesInvalid($student->id);
+
+//        $xmlFile = simplexml_load_file('../docs/document.xml');
+//        $file = file_get_contents('../docs/document.xml');
+
+        $file = fopen('../docs/document.xml', "r");
+        $fileSize = filesize('../docs/document.xml');
+        $fileContent = fread($file, $fileSize);
+        fclose($file);
+        str_replace('Специальность', $student->specialty, $fileContent);
+        fopen($)
+        fwrite($file, $fileContent);
+
+
+
+//        $phpWord = new PhpWord();
+//        $phpWord->setDefaultFontName('Times New Roman');
+//        $phpWord->setDefaultFontSize(14);
+//        $section = $phpWord->addSection();
+//        $section->addText(
+//            'Протокол по итогам тайного голосования', ['size' => 18, 'bold' => true], ['align' => 'center'] );
+//        $section->addText('диссертационного совета', ['size' => 14, 'bold' => true], ['align' => 'center'] );
+//        $section->addText(" по специальности code " . "«{$student->specialty}»" , ['size' => 14, 'bold' => true], ['align' => 'center']);
+//        $section->addText('Карагандинского государственного технического университета', ['size' => 14, 'bold' => true], ['align' => 'center']);
+//        $section->addText('от ' . date('«d» F Y') . 'г.', ['size' => 14], ['align' => 'right', 'marginTop' => 500, 'marginBottom' => 100]);
+//
+//        $section->addText('Подсчет голосов при тайном голосовании по диссертации ', ['size' => 12], ['space' => ['before' => 20]]);
+//        $section->addText($student->name, ['bold' => true]);
+//        $section->addText(' на соискание степени доктора философии(PhD) по специальности ');
+//        $section->addText($student->specialty, ['bold' => true]);
+//        $section->addText('Тема докторской дессиртации ', [], ['merginLeft' => 10]);
+//        $section->addText("«{$student->theme}».", ['bold' => true]);
+//
+//        $section2 = $phpWord->addSection(['breakType' => 'continuous', 'marginLeft' => 2000]);
+//        $section2->addText('Участвовали в голосовании ' . $countMemberCommission . ' (человек)', ['size' => 14], ['spaceBefore' => 100]);
+//        $section2->addText('За ' . $countVotesFor . ' (человек)');
+//        $section2->addText('Против ' . $countVotesAgainst . ' (человек)');
+//        $section2->addText('Недействительно ' . $countVotesInvalid . ' (человек)');
+//
+//
+//
+//        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
+//        $objWriter->save("$student->name" . '.docx');
+
+        return $this->render('index');
+            //$this->redirect('index');
     }
 
 

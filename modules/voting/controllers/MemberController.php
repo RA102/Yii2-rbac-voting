@@ -58,8 +58,8 @@ class MemberController extends Controller
      */
     public function actionIndex()
     {
-        $userIp = Yii::$app->request->getUserIP();
-        #var_dump(Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId()));
+        //$userIp = Yii::$app->request->getUserIP();
+        //var_dump(Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId()));
 
         $searchModel = new MemberSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -104,7 +104,6 @@ class MemberController extends Controller
         $model = new Member();
         $allUsersByRoleUser = $model->getUserIdsByRole('user');
 
-
         /*
          * Кнопка "Назначить"
          * User - Manager
@@ -115,36 +114,19 @@ class MemberController extends Controller
 
             // получить id пользователя со Статусом 'Active' = 2 до изменения
             // ? может не пригодится
-//            $task = new Member();
-//            $memberIsActive = $task->getMemberIdByActive();
+
             $memberIsActive = Member::findOne(['active' => 2]);
 
-            //$result = new Result();
-            $rowResult = Result::findOne($memberIsActive['id']);
+            $rowResult = Result::findAll(['member_id' => $memberIsActive->id]);
 
-
-//echo "<pre>";
-//            var_dump($rowResult);die;
-
-
-//            if (!empty($memberIsActive)) {
-//                foreach ($memberIsActive as $item) {
-//                    if($item->type_id == 0) {
-//                        $item->type_id = 2;
-//                    }
-//                    $item->active = 1;
-//                    $item->save(false);
-//                }
-//            }
-            if ( !empty($rowResult) ) {
-
-                if ( $rowResult->type_id == 0 )
-                    $rowResult->type_id = 2;
-
-                $memberIsActive->active = 1;
-                $memberIsActive->save(false);
+            if (!empty($rowResult) ) {
+                foreach ($rowResult as $item) {
+                    if ($item->type_id == 0) {
+                        $item->type_id = 2;
+                        $item->save(false);
+                    }
+                }
             }
-
 
 
 
@@ -178,6 +160,8 @@ class MemberController extends Controller
 
             return $this->redirect(['index']);
         }
+
+
 
         return $this->render('index', [
             'searchModel' => $searchModel,

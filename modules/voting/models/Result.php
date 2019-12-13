@@ -85,4 +85,26 @@ class Result extends \yii\db\ActiveRecord
         return $this->hasOne(StatusStudent::className(), ['id' => 'status_student_id']);
     }
 
+    public static function getQuantityCommission($params)
+    {
+        return Result::find()->where(['member_id' => $params])->count();
+    }
+
+    public static function getNumberVotesFor($params)
+    {
+        return Result::find()->where(['member_id' => $params, 'type_id' => 3])->count();
+    }
+
+    public static function getNumberVotesAgainst($params)
+    {
+        return Result::find()->where(['member_id' => $params, 'type_id' => 1])->count();
+    }
+
+    public static function getNumberVotesInvalid($params)
+    {
+        return Result::find()->where(['member_id' => $params, 'type_id' => 2])->count();
+    }
+
+
+
 }
