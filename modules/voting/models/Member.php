@@ -13,6 +13,7 @@ use yii\db\Query;
  * @property string $name
  * @property string $faculty
  * @property string $department
+ * @property string $code
  * @property string $specialty
  * @property string $theme
  * @property int $active
@@ -42,11 +43,10 @@ class Member extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'faculty', 'department', 'specialty', 'theme'], 'required'],
+            [['name', 'faculty', 'department', 'code', 'specialty', 'theme'], 'required'],
             [['active', 'status_student_id'], 'integer'],
-//            [['data'], 'string'],
             [['data'], 'date', 'format' => 'php: Y-m-d'],
-            [['name', 'faculty', 'department', 'specialty', 'theme'], 'string', 'max' => 255],
+            [['name', 'faculty', 'department', 'code', 'specialty', 'theme'], 'string', 'max' => 255],
         ];
     }
 
@@ -60,6 +60,7 @@ class Member extends \yii\db\ActiveRecord
             'name' => 'Name',
             'faculty' => 'Faculty',
             'department' => 'Department',
+            'code' => 'Code',
             'specialty' => 'Specialty',
             'theme' => 'Theme',
             'active' => 'Active',
@@ -132,21 +133,12 @@ class Member extends \yii\db\ActiveRecord
     public static function getMemberIdByActive()
     {
         return Member::find()->where(['active' => 2])->one();
-//        return (new Query())
-//            ->select('id')
-//            ->from('member')
-//            ->where(['active' => 2])
-//            ->one();
+
     }
 
     public function getMember($memberId)
     {
         return Result::find()->where(['member_id' => $memberId])->all();
     }
-
-//    public function getResult()
-////    {
-////
-////    }
 
 }

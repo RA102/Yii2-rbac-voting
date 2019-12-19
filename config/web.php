@@ -6,7 +6,7 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    //'timeZone' => 'GMT+6',
+    'timeZone' => 'UTC',
     'bootstrap' => ['log'],
     'language' => 'ru',
     'aliases' => [
@@ -55,7 +55,8 @@ $config = [
         ],
         // Уставновка формата даты
         'formatter' => [
-            'dateFormat' => 'd-m-Y',
+            //'dateFormat' => 'H-mm d-m-Y',
+            //'timeFormat' => 'H-mm',
             #'datetimeFormat' => 'php:d/m/Y H:m',
         ],
         'db' => $db,

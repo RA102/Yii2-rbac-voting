@@ -8,6 +8,7 @@ use phpDocumentor\Reflection\Types\Void_;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\Shared\ZipArchive;
 use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\JcTable;
 use Yii;
@@ -157,70 +158,52 @@ class ResultController extends Controller
 
     public function actionCreateProtocol()
     {
-        $student = Member::getMemberIdByActive();
+//        $student = Member::getMemberIdByActive();
+        $student = Member::findOne(['id' => Yii::$app->request->get('member_id')]);
+        var_dump(Yii::$app->request->get('member_id'));
         //var_dump($student->specialty, "<br>");
         $countMemberCommission = Result::getQuantityCommission($student->id);
         $countVotesFor = Result::getNumberVotesFor($student->id);
         $countVotesAgainst = Result::getNumberVotesAgainst($student->id);
         $countVotesInvalid = Result::getNumberVotesInvalid($student->id);
-        var_dump($student->specialty);
-
-//        $xmlFile = simplexml_load_file('../docs/document.xml');
-//        $file = file_get_contents('../docs/document.xml');
 
         $file = fopen('../docs/document.xml', "r+");
-        $fileSize = filesize('../docs/document.xml');
-        $fileContent = fread($file, $fileSize);
-//        var_dump($fileContent, "<br>");
-        str_replace("countCommission",  "$countMemberCommission", $fileContent);
-        str_replace("countFor",  "$countVotesFor", $fileContent);
-        str_replace("countAgainst",  "$countVotesAgainst", $fileContent);
-        str_replace("countAgainst",  "$countVotesInvalid", $fileContent);
+        $fileContent = file_get_contents('../docs/document.xml');
 
-//        //fclose($file);
-//        $tmp = str_replace('Специальность', $student->specialty, $fileContent);
-//        //var_dump($tmp);
-//        //fopen($)
-//        fwrite($file, $fileContent);
-//        fclose($file);
+        $fileContent = str_replace("[code]", $student->code, $fileContent);
+        $fileContent = str_replace('[speciality]', $student->specialty, $fileContent);
+        $fileContent = str_replace('[date]', date("d.m.Y"), $fileContent);
+        $fileContent = str_replace('[student]', $student->name.' ', $fileContent);
+        $fileContent = str_replace('[theme]', $student->theme, $fileContent);
+        $fileContent = str_replace("[countCommision]",  "$countMemberCommission", $fileContent);
+        $fileContent = str_replace("[countFor]",  "$countVotesFor", $fileContent);
+        $fileContent = str_replace("[countAgainst]",  "$countVotesAgainst", $fileContent);
+        $fileContent = str_replace("[countInvalid]",  "$countVotesInvalid", $fileContent);
 
-        //$file = file('../docs/document.xml');
-        //var_dump($file);
+        file_put_contents('../docs/_/word/document.xml', $fileContent);
+        fclose($file);
 
+        $src_dir = "../docs/_/";
+        $arch_dir = "../docs/";
+        $zip = new \ZipArchive();
+        $fileName = $arch_dir . $student->name . ".zip";
 
+        $zip->open('../docs/_/protocol', \ZipArchive::CREATE );
+        $file_list = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src_dir, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::LEAVES_ONLY);
 
-
-//        $phpWord = new PhpWord();
-//        $phpWord->setDefaultFontName('Times New Roman');
-//        $phpWord->setDefaultFontSize(14);
-//        $section = $phpWord->addSection();
-//        $section->addText(
-//            'Протокол по итогам тайного голосования', ['size' => 18, 'bold' => true], ['align' => 'center'] );
-//        $section->addText('диссертационного совета', ['size' => 14, 'bold' => true], ['align' => 'center'] );
-//        $section->addText(" по специальности code " . "«{$student->specialty}»" , ['size' => 14, 'bold' => true], ['align' => 'center']);
-//        $section->addText('Карагандинского государственного технического университета', ['size' => 14, 'bold' => true], ['align' => 'center']);
-//        $section->addText('от ' . date('«d» F Y') . 'г.', ['size' => 14], ['align' => 'right', 'marginTop' => 500, 'marginBottom' => 100]);
-//
-//        $section->addText('Подсчет голосов при тайном голосовании по диссертации ', ['size' => 12], ['space' => ['before' => 20]]);
-//        $section->addText($student->name, ['bold' => true]);
-//        $section->addText(' на соискание степени доктора философии(PhD) по специальности ');
-//        $section->addText($student->specialty, ['bold' => true]);
-//        $section->addText('Тема докторской дессиртации ', [], ['merginLeft' => 10]);
-//        $section->addText("«{$student->theme}».", ['bold' => true]);
-//
-//        $section2 = $phpWord->addSection(['breakType' => 'continuous', 'marginLeft' => 2000]);
-//        $section2->addText('Участвовали в голосовании ' . $countMemberCommission . ' (человек)', ['size' => 14], ['spaceBefore' => 100]);
-//        $section2->addText('За ' . $countVotesFor . ' (человек)');
-//        $section2->addText('Против ' . $countVotesAgainst . ' (человек)');
-//        $section2->addText('Недействительно ' . $countVotesInvalid . ' (человек)');
-//
-//
-//
-//        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
-//        $objWriter->save("$student->name" . '.docx');
+        if ($zip->open($fileName, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === true) {
+            foreach ($file_list as $file) {
+                if ($file !== $fileName) {
+                    if (file_exists($file) && is_readable($file))
+                        $zip->addFile($file, substr($file, strlen($src_dir)));
+                }
+            }
+            $zip->close();
+            rename($fileName, $arch_dir . $student->name . ".docx");
+            return Yii::$app->response->sendFile($arch_dir . $student->name . ".docx");
+        }
 
         return $this->redirect('index');
-            //$this->redirect('index');
     }
 
 
