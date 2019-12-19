@@ -135,9 +135,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value' => function($data) {
                         if ($data->active == 1 || $data->active == 2)
                         {
-                            return Html::a('Назначить', ['index?active=2&memberid='.$data->id], ['class' => 'btn btn-success btn-sm  mr-1 disabled',  'id' => 'appoint'] );
+                            return Html::a('Назначить', ['index?active=2&memberid='.$data->id], ['class' => 'btn btn-success appoint btn-sm  mr-1 disabled',  'id' => "appoint"] );
                         } else {
-                            return Html::a('Назначить', ['index?active=2&memberid='.$data->id], ['class' => 'btn btn-success btn-sm  mr-1',  'id' => 'appoint'] );
+                            return Html::a('Назначить', ['index?active=2&memberid='.$data->id], ['class' => 'btn btn-success appoint btn-sm  mr-1',  'id' => 'appoint'] );
                         }
                     },
 
@@ -162,3 +162,26 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]); ?>
 </div>
+<?php
+$script = <<< JS
+
+let obj = document.getElementsByClassName('appoint');
+for (let i =0; i < obj.length; i++) {
+    obj[i].addEventListener('click', function(event) {
+        event.preventDefault();
+        this.textContent = 'Закончить голосование';
+        this.style.backgroundColor = "red";
+                
+        let href = this.getAttribute('href');
+        let regExp = /active=\d/;
+        let newHref = href.replace(regExp, "active=1");
+        this.setAttribute('href', newHref);
+        
+        
+    });
+}
+
+
+JS;
+$this->registerJs($script, yii\web\View::POS_READY);
+?>

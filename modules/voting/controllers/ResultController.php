@@ -45,13 +45,21 @@ class ResultController extends Controller
         $searchModel = new ResultSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $requestSearch = (object)Yii::$app->request->queryParams;
-        $memberIdFromQuery = $requestSearch->ResultSearch['member_id'];
+        if (empty(Yii::$app->request->queryParams)) {
+            $objActiveMember = Member::getMemberIdByActive();
+            $memberIdFromQuery = $objActiveMember['id'];
+        } else {
+            $requestSearch = (object)Yii::$app->request->queryParams;
+            $memberIdFromQuery = $requestSearch->ResultSearch['member_id'];
+        }
 
         $countMemberCommission = Result::getQuantityCommission($memberIdFromQuery);
         $countVotesFor = Result::getNumberVotesFor($memberIdFromQuery);
         $countVotesAgainst = Result::getNumberVotesAgainst($memberIdFromQuery);
         $countVotesInvalid = Result::getNumberVotesInvalid($memberIdFromQuery);
+
+
+        //$memberSpecialty = Member::
 
 
         return $this->render('index', [
@@ -150,21 +158,35 @@ class ResultController extends Controller
     public function actionCreateProtocol()
     {
         $student = Member::getMemberIdByActive();
+        //var_dump($student->specialty, "<br>");
         $countMemberCommission = Result::getQuantityCommission($student->id);
         $countVotesFor = Result::getNumberVotesFor($student->id);
         $countVotesAgainst = Result::getNumberVotesAgainst($student->id);
         $countVotesInvalid = Result::getNumberVotesInvalid($student->id);
+        var_dump($student->specialty);
 
 //        $xmlFile = simplexml_load_file('../docs/document.xml');
 //        $file = file_get_contents('../docs/document.xml');
 
-        $file = fopen('../docs/document.xml', "r");
+        $file = fopen('../docs/document.xml', "r+");
         $fileSize = filesize('../docs/document.xml');
         $fileContent = fread($file, $fileSize);
-        fclose($file);
-        str_replace('Специальность', $student->specialty, $fileContent);
-        fopen($)
-        fwrite($file, $fileContent);
+//        var_dump($fileContent, "<br>");
+        str_replace("countCommission",  "$countMemberCommission", $fileContent);
+        str_replace("countFor",  "$countVotesFor", $fileContent);
+        str_replace("countAgainst",  "$countVotesAgainst", $fileContent);
+        str_replace("countAgainst",  "$countVotesInvalid", $fileContent);
+
+//        //fclose($file);
+//        $tmp = str_replace('Специальность', $student->specialty, $fileContent);
+//        //var_dump($tmp);
+//        //fopen($)
+//        fwrite($file, $fileContent);
+//        fclose($file);
+
+        //$file = file('../docs/document.xml');
+        //var_dump($file);
+
 
 
 
@@ -197,7 +219,7 @@ class ResultController extends Controller
 //        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
 //        $objWriter->save("$student->name" . '.docx');
 
-        return $this->render('index');
+        return $this->redirect('index');
             //$this->redirect('index');
     }
 
