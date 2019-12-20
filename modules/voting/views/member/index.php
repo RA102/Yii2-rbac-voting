@@ -131,7 +131,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'headerOptions' => ['style' => 'text-align: center;'],
                     'format' => 'raw',
                     'visible' => Yii::$app->user->can('accessAppoint'),
-                    'contentOptions' => ['class' => 'd-table-cell', 'style' => 'vertical-align: middle;'],
+                    'contentOptions' => ['class' => 'd-table-cell text-center', 'style' => 'vertical-align: middle;'],
                     'value' => function($data) {
                         if ($data->active == 0) {
                             return Html::a('Назначить', ['index?active=2&memberid='.$data->id], ['class' => 'btn btn-success appoint btn-sm  mr-1',  'id' => 'appoint'] );

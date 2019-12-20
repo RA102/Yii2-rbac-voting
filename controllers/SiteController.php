@@ -66,6 +66,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
 
+        if (Yii::$app)
         return $this->render('index');
     }
 

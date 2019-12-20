@@ -113,9 +113,10 @@ class MemberController extends Controller
 
             if (Yii::$app->request->get('active') == 2 ) {
 
-                /*  Создание полей по кол-ву членов комиссии
-                *  в таблице Result
-                */
+                /**  Создание полей по кол-ву членов комиссии
+                 *  в таблице Result
+                 */
+
                 foreach ($allUsersByRoleUser as $item) {
                     $createResult = new Result();
                     $createResult->user_id = $item['user_id'];
@@ -140,6 +141,8 @@ class MemberController extends Controller
                 $model = Member::findOne(Yii::$app->request->get('memberid'));
                 $model->active = (int)Yii::$app->request->get('active');
                 $model->status_student_id = 3;
+
+                $model->number_queue = 1;
                 $model->save(false);
 
                 $rowResult = Result::findAll(['member_id' => Yii::$app->request->get('memberid')]);
@@ -154,51 +157,6 @@ class MemberController extends Controller
                 }
             }
 
-
-
-            // получить id пользователя со Статусом 'Active' = 2 до изменения
-            // ? может не пригодится
-
-//            $memberIsActive = Member::findOne(['active' => 2]);
-//
-//            $rowResult = Result::findAll(['member_id' => $memberIsActive->id]);
-//
-//            if (!empty($rowResult) ) {
-//                foreach ($rowResult as $item) {
-//                    if ($item->type_id == 0) {
-//                        $item->type_id = 2;
-//                        $item->save(false);
-//                    }
-//                }
-//            }
-//
-//
-//            // Получить всех Member у кого Active = 2
-//            $model = Member::find()
-//                ->where(['active' => 2])
-//                ->all();
-//
-//            // Установить всем Member из массива Active = 1
-//            foreach ($model as $item) {
-//                $item->active = 1;
-//                $item->save(false);
-//            }
-//
-//            // Установить Member'у по id из кнопки Active = 2
-//            $model = Member::findOne(Yii::$app->request->get('memberid'));
-//            $model->status_student_id = (int)Yii::$app->request->get('active');
-//            $model->active = (int)Yii::$app->request->get('active');
-//            $model->save(false);
-
-            /*  Создание полей по кол-ву членов комиссии
-             *  в таблице Result
-             */
-//            foreach ($allUsersByRoleUser as $item) {
-//                $createResult = new Result();
-//                $createResult->user_id = $item['user_id'];
-//                $createResult->member_id = (integer)Yii::$app->request->get('memberid');
-//                $createResult->save(false);
-//            }
 
             return $this->redirect(['index']);
         }

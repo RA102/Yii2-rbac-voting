@@ -16,7 +16,7 @@ use yii\db\Query;
  * @property int $result_id
  * @property int $type_id
  * @property int $status_student_id
- * @property int $active
+ * @property int $active_result
  * @property int $time_voting
  * @property int $updated_at
  */
@@ -42,7 +42,7 @@ class Result extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'member_id'], 'required'],
-            [['user_id', 'member_id', 'result_id', 'type_id', 'status_student_id', 'active'], 'integer'],
+            [['user_id', 'member_id', 'result_id', 'type_id', 'status_student_id', 'active_result'], 'integer'],
             [['time_voted'], 'date'],
         ];
     }
@@ -59,7 +59,7 @@ class Result extends \yii\db\ActiveRecord
             'result_id' => 'Result ID',
             'type_id' => 'Type ID',
             'status_student_id' => 'Status Student ID',
-            'active' => 'Active',
+            'active_result' => 'Active',
             'time_voted' => 'Time Voting',
         ];
     }

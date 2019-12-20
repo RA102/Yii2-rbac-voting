@@ -17,7 +17,7 @@ class ResultSearch extends Result
     public function rules()
     {
         return [
-            [['id', 'user_id', 'member_id', 'result_id', 'type_id', 'status_student_id', 'active'], 'integer'],
+            [['id', 'user_id', 'member_id', 'result_id', 'type_id', 'status_student_id', 'active_result'], 'integer'],
         ];
     }
 
@@ -39,15 +39,15 @@ class ResultSearch extends Result
      */
     public function search($params)
     {
-        if (empty($params)) {
-            $obj = Member::getMemberIdByActive();
-            $params = [
-                'ResultSearch' => [
-                    'member_id' => $obj->id,
-                    'type_id' => '',
-                ],
-            ];
-        }
+//        if (empty($params)) {
+//            $obj = Member::getMemberIdByActive();
+//            $params = [
+//                'ResultSearch' => [
+//                    'member_id' => $obj->id,
+//                    'type_id' => '',
+//                ],
+//            ];
+//        }
         $query = Result::find();
 
         // add conditions that should always apply here
@@ -73,7 +73,7 @@ class ResultSearch extends Result
             'result_id' => $this->result_id,
             'type_id' => $this->type_id,
             'status_student_id' => $this->status_student_id,
-            'active' => $this->active,
+            'active_result' => $this->active_result,
         ]);
 
         return $dataProvider;

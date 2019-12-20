@@ -44,7 +44,7 @@ class Member extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'faculty', 'department', 'code', 'specialty', 'theme'], 'required'],
-            [['active', 'status_student_id'], 'integer'],
+            [['active_result', 'status_student_id'], 'integer'],
             [['data'], 'date', 'format' => 'php: Y-m-d'],
             [['name', 'faculty', 'department', 'code', 'specialty', 'theme'], 'string', 'max' => 255],
         ];
@@ -63,7 +63,7 @@ class Member extends \yii\db\ActiveRecord
             'code' => 'Code',
             'specialty' => 'Specialty',
             'theme' => 'Theme',
-            'active' => 'Active',
+            'active_result' => 'Active',
             'status_student_id' => 'Status Student ID',
         ];
     }
@@ -132,8 +132,7 @@ class Member extends \yii\db\ActiveRecord
 
     public static function getMemberIdByActive()
     {
-        return Member::find()->where(['active' => 2])->one();
-
+        return Member::find()->where(['number_queue' => 1])->one();
     }
 
     public function getMember($memberId)

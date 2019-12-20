@@ -60,8 +60,6 @@ class ResultController extends Controller
         $countVotesInvalid = Result::getNumberVotesInvalid($memberIdFromQuery);
 
 
-        //$memberSpecialty = Member::
-
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -93,15 +91,15 @@ class ResultController extends Controller
      */
     public function actionCreate()
     {
-//        $model = new Result();
-//
-//        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-//            return $this->redirect(['view', 'id' => $model->id]);
-//        }
-//
-//        return $this->render('create', [
-//            'model' => $model,
-//        ]);
+        $model = new Result();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
 
         return $this->render('index');
     }
@@ -158,10 +156,10 @@ class ResultController extends Controller
 
     public function actionCreateProtocol()
     {
-//        $student = Member::getMemberIdByActive();
-        $student = Member::findOne(['id' => Yii::$app->request->get('member_id')]);
-        var_dump(Yii::$app->request->get('member_id'));
-        //var_dump($student->specialty, "<br>");
+
+//        $student = Member::findOne(['id' => (int)$_GET['member_id']]);
+        $student = $this->findModel((int)$_GET['member_id']);
+        var_dump($student);die;
         $countMemberCommission = Result::getQuantityCommission($student->id);
         $countVotesFor = Result::getNumberVotesFor($student->id);
         $countVotesAgainst = Result::getNumberVotesAgainst($student->id);
@@ -173,7 +171,7 @@ class ResultController extends Controller
         $fileContent = str_replace("[code]", $student->code, $fileContent);
         $fileContent = str_replace('[speciality]', $student->specialty, $fileContent);
         $fileContent = str_replace('[date]', date("d.m.Y"), $fileContent);
-        $fileContent = str_replace('[student]', $student->name.' ', $fileContent);
+        $fileContent = str_replace('[student]', $student->name.'  ', $fileContent);
         $fileContent = str_replace('[theme]', $student->theme, $fileContent);
         $fileContent = str_replace("[countCommision]",  "$countMemberCommission", $fileContent);
         $fileContent = str_replace("[countFor]",  "$countVotesFor", $fileContent);

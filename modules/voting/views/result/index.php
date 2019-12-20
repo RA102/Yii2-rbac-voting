@@ -22,7 +22,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <h2 class="text-center">Результаты голосования</h2>
 
     <p class="text-right">
-        <?= Html::a('Создать протокол голосования', ['create-protocol'], ['class' => 'btn btn-success']) ?>
+        <?php if (!empty($_GET['ResultSearch']['member_id'])) {
+            $disabled = '';
+        }
+        else
+            $disabled = 'disabled';
+        ?>
+        <?= Html::a('Создать протокол голосования', ['create-protocol?member_id='.$_GET['ResultSearch']['member_id']], ['class' => 'btn btn-success '.$disabled]) ?>
     </p>
 
     <?= GridView::widget([
